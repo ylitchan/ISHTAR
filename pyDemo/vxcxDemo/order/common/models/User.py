@@ -8,7 +8,6 @@ from application import db
 
 class User(db.Model):
     __tablename__ = 'user'
-
     uid = db.Column(db.BigInteger, primary_key=True, info='用户uid')
     nickname = db.Column(db.String(100), nullable=False, server_default=db.FetchedValue(), info='用户名')
     mobile = db.Column(db.String(20), nullable=False, server_default=db.FetchedValue(), info='手机号码')

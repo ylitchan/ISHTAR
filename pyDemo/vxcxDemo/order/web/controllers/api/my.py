@@ -10,7 +10,7 @@ from common.libs.Helper import selectFilterObj,getDictFilterField,getCurrentDate
 from common.models.member.MemberComments import MemberComments
 import json,datetime
 from common.models.member.MemberAddress import MemberAddress
-@route_api.route("/my/order")
+@route_api.route("/my/members")
 def myOrderList():
 	resp = {'code': 200, 'msg': '操作成功~', 'data': {}}
 	member_info = g.member_info

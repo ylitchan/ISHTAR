@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 SQLALCHEMY_DATABASE_URI = 'mysql://root:123456@127.0.0.1/mysql?charset=utf8mb4'
 SQLALCHEMY_TRACK_MODIFICATIONS = False
-SERVER_PORT = 8999
+SERVER_PORT = 443
 DEBUG = False
 SQLALCHEMY_ECHO  = False
 AUTH_COOKIE_NAME = "mooc_food"
@@ -33,7 +33,7 @@ UPLOAD = {
     'prefix_url':'/static/upload/'
 }
 APP = {
-    'domain':'http://92bpak.natappfree.cc/'
+    'domain':'https://127.0.0.1/'
 }
 
 

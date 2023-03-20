@@ -4,7 +4,7 @@ from application import db,app
 
 
 class Member(db.Model):
-    __tablename__ = 'member'
+    __tablename__ = 'members'
 
     id = db.Column(db.Integer, primary_key=True)
     nickname = db.Column(db.String(100), nullable=False, server_default=db.FetchedValue(), info='???')

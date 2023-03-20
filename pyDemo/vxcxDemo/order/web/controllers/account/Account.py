@@ -63,7 +63,7 @@ def info():
 
 @route_account.route( "/set" ,methods = ["GET","POST"])
 def set():
-    default_pwd = "******"
+    default_pwd="******"
     if request.method == "GET":
         resp_data = {}
         req = request.args
@@ -72,11 +72,15 @@ def set():
         if uid:
             info = User.query.filter_by(uid=uid).first()
         resp_data['info'] = info
-        return ops_render("account/set.html", resp_data)
+        return ops_render( "account/set.html" , resp_data)
 
     resp = {'code': 200, 'msg': '操作成功', 'data': {}}
 
     req = request.values
+
+    id = req['id'] if 'id' in req else 0
+
+
     nickname = req['nickname'] if 'nickname' in req else ''
     mobile = req['mobile'] if 'mobile' in req else ''
     email = req['email'] if 'email' in req else ''
@@ -108,11 +112,12 @@ def set():
         resp['msg']='请输入符合规范的登录密码'
         return jsonify(resp)
 
-    has_in = User.query.filter(User.login_name == login_name).first()
+    has_in = User.query.filter(User.login_name == login_name, User.uid!=id).first()
     if has_in:
         resp['code']=-1
         resp['msg']='登录名已存在，更换后再试'
         return jsonify(resp)
+
     user_info = User.query.filter_by(uid=id).first()
     if user_info:
         model_user = user_info
@@ -126,12 +131,10 @@ def set():
     model_user.email = email
     model_user.login_name = login_name
     if login_pwd != default_pwd:
-        model_user.login_pwd = UserService.genePwd(login_pwd, model_user.login_salt)
+        model_user.login_pwd = UserService.genePwd(login_pwd, model_user.login_salt )
     model_user.update_time = getCurrentDate()
 
     db.session.add(model_user)
     db.session.commit()
     return jsonify(resp)
-
-
 

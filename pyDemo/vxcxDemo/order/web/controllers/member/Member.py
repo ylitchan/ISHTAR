@@ -42,7 +42,7 @@ def index():
     resp_data['status_mapping'] = app.config['STATUS_MAPPING']
     resp_data['current'] = 'index'
 
-    return ops_render( "member/index.html",resp_data )
+    return ops_render( "members/index.html",resp_data )
 
 
 @route_member.route( "/info" )
@@ -51,7 +51,7 @@ def info():
 
     req = request.args
     id = int(req.get("id", 0))
-    rebackUrl = UrlManager.buildUrl("member/index")
+    rebackUrl = UrlManager.buildUrl("members/index")
     if id < 1:
         return redirect(rebackUrl)
 
@@ -62,7 +62,7 @@ def info():
     resp_data['info'] = info
     resp_data['current'] = 'index'
 
-    return ops_render( "member/info.html" ,resp_data)
+    return ops_render( "members/info.html" ,resp_data)
 
 @route_member.route( "/set",methods=["GET","POST"] )
 def set():
@@ -71,7 +71,7 @@ def set():
 
         req = request.args
         id = int(req.get("id", 0))
-        rebackUrl = UrlManager.buildUrl("member/index")
+        rebackUrl = UrlManager.buildUrl("members/index")
         if id < 1:
             return redirect(rebackUrl)
 
@@ -81,7 +81,7 @@ def set():
 
         resp_data['info'] = member_info
         resp_data['current'] = 'index'
-        return ops_render( "member/set.html",resp_data  )
+        return ops_render( "members/set.html",resp_data  )
 
     resp = {'code': 200, 'msg': '账户添加成功', 'data': {}}
     req = request.values
@@ -145,4 +145,4 @@ def ops():
 
 @route_member.route( "/comment" )
 def comment():
-    return render_template( "member/comment.html" )
+    return ops_render( "members/comment.html" )

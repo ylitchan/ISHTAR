@@ -10,7 +10,7 @@ from common.libs.member.CartService import CartService
 from common.models.member.OauthMemberBind import OauthMemberBind
 from common.libs.pay.PayService import PayService
 
-@route_api.route("/order/info", methods=[ "POST" ])
+@route_api.route("/members/info", methods=[ "POST" ])
 def orderInfo():
 	resp = {'code': 200, 'msg': '操作成功~', 'data': {}}
 	req = request.values
@@ -57,7 +57,7 @@ def orderInfo():
 
 
 
-@route_api.route("/order/create", methods=[ "POST"])
+@route_api.route("/members/create", methods=[ "POST"])
 def orderCreate():
 	resp = {'code': 200, 'msg': '操作成功~', 'data': {}}
 	req = request.values

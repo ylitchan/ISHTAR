@@ -10,7 +10,7 @@ from common.libs.Helper import getCurrentDate
 from common.libs.member.MemberService import MemberService
 
 
-@route_api.route( "/member/login", methods = ['GET', 'POST'] )
+@route_api.route( "/members/login", methods = ['GET', 'POST'] )
 def login():
     resp = {'code':200,'msg':'操作成功', 'data':{}}
     req = request.values
@@ -62,7 +62,7 @@ def login():
     resp['data'] = {'token': token}
     return jsonify(resp)
 
-@route_api.route( "/member/check-reg", methods = ['GET', 'POST'] )
+@route_api.route( "/members/check-reg", methods = ['GET', 'POST'] )
 def checkReg():
     resp = {'code': 200, 'msg': '操作成功', 'data': {}}
     req = request.values
@@ -100,7 +100,7 @@ def checkReg():
 
 
 
-@route_api.route("/member/share",methods = [ "POST" ])
+@route_api.route("/members/share",methods = [ "POST" ])
 def memberShare():
     resp = {'code': 200, 'msg': '操作成功~', 'data': {}}
     req = request.values
@@ -115,7 +115,7 @@ def memberShare():
     db.session.commit()
     return jsonify(resp)
 
-@route_api.route("/member/info")
+@route_api.route("/members/info")
 def memberInfo():
     resp = {'code': 200, 'msg': '操作成功~', 'data': {}}
     member_info = g.member_info
