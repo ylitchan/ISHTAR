@@ -6,7 +6,7 @@ import uvicorn
 import telebot
 app = FastAPI()
 bot = telebot.TeleBot("6291256191:AAExAaaagpZgEAdBvhOMRN2JxlXr8om4qJA")
-openai.api_key = "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"
+openai.api_key = "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"
 all={}
 async def chatGPT(msg: list):
     res = openai.ChatCompletion.create(
