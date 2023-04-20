@@ -42,7 +42,7 @@ headers={'Sec-WebSocket-Protocol': 'graphql-ws'}
 json={
   "id": "bc270594-8088-4740-b976-5a6048966c3f",
   "payload": {
-    "data": "{\"query\":\"subscription UpdatePrice($address: String, $networkId: Int) {\\n        onUpdatePrice(address: $address, networkId: $networkId) {\\n          priceUsd\\n          timestamp}\\n      }\",\"variables\":{\"address\":\"0xf19547f9ed24aa66b03c3a552d181ae334fbb8db\",\"networkId\":42161}}",
+    "data": "{\"query\":\"subscription UpdatePrice($address: String, $networkId: Int) {\\n        onUpdatePrice(address: $address, networkId: $networkId) {\\n          priceUsd\\n          timestamp}\\n      }\",\"variables\":{\"address\":\"0xf19547f9ed24aa66b03c3a552d181ae334fbb8db\",\"networkId\":42161}}",#这里写合约地址和链的编号
     "extensions": { 
       "authorization": {
         "host": "realtime.api.defined.fi",
@@ -64,19 +64,26 @@ async def push(title, content):
         async with session.post(url='http://www.pushplus.plus/send/', json=json) as res:
             print(res.status)
 async def startup():
-    prices=[2.74*0.75]+[2.74*i for i in range(1,6)]
-    print(prices)
-    async with aiohttp.ClientSession().ws_connect(url=remote, proxy='http://127.0.0.1:10810', headers=headers) as aws:
-        print("iiiiiiiiiiiiiiiiiii")
+    high_prices=[2.74*i for i in range(1,6)]#这里设置止盈提醒价格比如2.74的1到5倍
+    low_prices=[0.1,0.05,0.04,0.03]#这里设置止损提醒价格
+
+    async with aiohttp.ClientSession().ws_connect(url=remote, proxy='http://127.0.0.1:10810', headers=headers) as aws:#这里走代理
         await aws.send_json(json)
         while 1:
-            print('-----------------------------------')
-            recv_text = await aws.receive_json()
-            print(recv_text)
-            price=recv_text.get('payload',{}).get('data',{}).get('onUpdatePrice',{}).get('priceUsd',0)
-            if price >= prices[0]:
-                prices.pop(0)
-                await push('币价提醒',price)
+            try:
+                # print('-----------------------------------')
+                recv_text = await aws.receive_json()
+                print(recv_text)
+                price=recv_text.get('payload',{}).get('data',{}).get('onUpdatePrice',{}).get('priceUsd',None)
+                if price:
+                    if price >= high_prices[0]:
+                        high_prices.pop(0)
+                        await push('币价提醒',price)
+                    elif price <= low_prices[0]:
+                        low_prices.pop(0)
+                        await push('币价提醒',price)
+            except:
+                await aws.send_json(json)
 
 
 

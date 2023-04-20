@@ -8,6 +8,7 @@ client = Twarc2(bearer_token="AAAAAAAAAAAAAAAAAAAAAPEGjQEAAAAAREb6WuXu7rNwm8Chnk
 def main():
     # The following function gets users that the specified user follows
     following = client.following(user=4920186276)
+    print(following)
     for page in following:
         result = expansions.flatten(page)
         for user in result:

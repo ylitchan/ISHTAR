@@ -52,7 +52,8 @@ RANDOM_DELAY=2
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
    #'alphaPlan.middlewares.AlphaplanDownloaderMiddleware': 543,
-   'alphaPlan.middlewares.RandomDelayMiddleware':100
+   'alphaPlan.middlewares.RandomDelayMiddleware':100,
+   'scrapy.downloadermiddlewares.retry.RetryMiddleware': 90,
 }
 
 # Enable or disable extensions
@@ -89,3 +90,11 @@ ITEM_PIPELINES = {
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 HTTPERROR_ALLOW_ALL = True
+# DOWNLOAD_TIMEOUT = 600
+# RETRY_ENABLED = True
+# RETRY_TIMES = 100
+# RETRY_ALL_HTTP_CODES = True
+PROJECT_URL = 'http://localhost:6800/'
+
+
+
