@@ -7,10 +7,10 @@
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = 'alphaScrapy'
+BOT_NAME = 'alphaPlan'
 
-SPIDER_MODULES = ['alphaScrapy.spiders']
-NEWSPIDER_MODULE = 'alphaScrapy.spiders'
+SPIDER_MODULES = ['alphaPlan.spiders']
+NEWSPIDER_MODULE = 'alphaPlan.spiders'
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
@@ -52,7 +52,7 @@ RANDOM_DELAY=2
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
    #'alphaPlan.middlewares.AlphaplanDownloaderMiddleware': 543,
-   'alphaScrapy.middlewares.RandomDelayMiddleware':100
+   'alphaPlan.middlewares.RandomDelayMiddleware':100
 }
 
 # Enable or disable extensions
@@ -65,7 +65,7 @@ DOWNLOADER_MIDDLEWARES = {
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
    # 'alphaPlan.pipelines.AlphaplanPipeline': 300,
-   'alphaScrapy.pipelines.TweetPipeline': 300,
+   'alphaPlan.pipelines.TweetPipeline': 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
