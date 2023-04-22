@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/jsDemo/vueDemo/vue-demo" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/pyDemo/tgDemo/td" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/pyDemo/tgDemo/td/vcpkg" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/pyDemo/tgDemo/tdlib-python" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/pyDemo/vxcxDemo/order/baddest" vcs="Git" />
+  </component>
+</project>
