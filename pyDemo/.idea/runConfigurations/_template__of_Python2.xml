@@ -6,7 +6,7 @@
     <envs>
       <env name="PYTHONUNBUFFERED" value="1" />
       <env name="ISHTAR" value="6074723596:AAEeU2OjyTYVwf0fsLN854qe6X92prsEli8" />
-      <env name="openai" value="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" />
+      <env name="openai" value="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" />
       <env name="telebot" value="6291256191:AAExAaaagpZgEAdBvhOMRN2JxlXr8om4qJA" />
       <env name="tweetapi" value="AAAAAAAAAAAAAAAAAAAAAPEGjQEAAAAAREb6WuXu7rNwm8ChnkpJoSJmSkw%3DXgtd6IlBg9SyrAcVhTOVucCrYL4OGfSjjCmMbfM8mFTi3CqUcL" />
     </envs>

@@ -3,15 +3,46 @@ import requests
 import json
 from gtts import gTTS
 # 语音转文字
+import slack
+
+# SLACK_TOKEN = "xoxb-5109321480134-5119781200516-a9jKJpORzVF3up5IrAYjU2yb"
+SLACK_TOKEN ='xoxp-5109321480134-5118401919620-5153089528371-48fc79253ec7046c7a4263436e3b43f5'
+CHANNEL_ID = "C052ZB95CQP"
+client = slack.WebClient(SLACK_TOKEN)
+# client.channels_replies(channel=CHANNEL_ID,thread_ts='1682348039.690759',text='asodgn')
+
+
+response = client.chat_postMessage(
+    channel=CHANNEL_ID,
+    text="<@U053SG7AC01> 什么时候毁灭人类",as_user=True,thread_ts='1682348039.690759'
+
+)
 r = sr.Recognizer()
-with sr.Microphone() as source:
-    print('说点什么吧...')
-    audio = r.listen(source)
-try:
-    text = r.recognize_google(audio, language='zh-CN')
-    print('你说的话是:', text)
-except:
-    print('抱歉,我没有听清楚!')
+# with sr.Microphone() as source:
+#     print('说点什么吧...')
+#     audio = r.listen(source)
+# try:
+#     text = r.recognize_google(audio, language='zh-CN')
+#     print('你说的话是:', text)
+# except:
+#     print('抱歉,我没有听清楚!')
+
+
+
+
+    # rtm连接和消息读取
+
+
+# 设置环境变量
+
+
+# 定义事件处理程序
+
+# 初始化 Slack 客户端
+
+
+# 初始化 RTM 客户端
+
 # 使用OpenAI的API接口请求GPT-3
 # prompt = text + '\nHuman: '
 # response = requests.post("https://api.openai.com/v1/engines/davinci/completions",

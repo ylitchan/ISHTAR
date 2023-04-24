@@ -11,8 +11,9 @@ class AlphaInfo(models.Model):
     tweet_media = models.TextField()
     tweet_gpt = models.TextField()
     alpha_time = models.TextField()
+    alpha_datetime = models.DateTimeField()
     user_thumb = models.TextField()
-    tweet_time = models.TextField
+    tweet_time = models.DateTimeField()
 
 
 class ProjectInfo(models.Model):
@@ -20,5 +21,5 @@ class ProjectInfo(models.Model):
     FollowedToday = models.TextField()
     Followers = models.TextField()
     Bio = models.TextField()
-    Created = models.TextField()
-    DiscoveryTime = models.TextField()
+    Created = models.DateTimeField()
+    DiscoveryTime = models.DateTimeField()

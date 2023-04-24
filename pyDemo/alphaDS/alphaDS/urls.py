@@ -21,4 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('newproject', views.newproject),
     path('launching', views.launching),
+    path('ishtar', views.ishtar),
 ]

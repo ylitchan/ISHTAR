@@ -4,7 +4,7 @@ import telebot
 import tweepy
 from kafka import KafkaProducer, KafkaConsumer
 import django
-
+from dateutil import parser
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'alphaDS.settings')  # 替换成您的项目名
 django.setup()
 from alphaApp.models import AlphaInfo

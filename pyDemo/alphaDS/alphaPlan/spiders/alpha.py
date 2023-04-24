@@ -8,6 +8,7 @@ from scrapy import Request
 from pybloom_live import ScalableBloomFilter
 from dateutil import parser
 
+
 class AlphaSpider(scrapy.Spider):
     name = 'alpha'
     allowed_domains = ['twitter.com']
@@ -71,7 +72,7 @@ class AlphaSpider(scrapy.Spider):
             only = response.json()['data']['list']['tweets_timeline']['timeline']['instructions'][0]['entries'][0]
             # tweet_id=re.findall(r'tweet-\d+',only)[-1][6:]
             tweet_id = parse('$..entryId').find(only)[-1].value
-            tweet_id=re.findall(r'\d+',tweet_id)[-1]
+            tweet_id = re.findall(r'\d+', tweet_id)[-1]
             if not self.sbfilter.add(tweet_id):
                 item = TweetlItem()
                 item['tweet_id'] = tweet_id
@@ -80,10 +81,10 @@ class AlphaSpider(scrapy.Spider):
                 # item['tweet_user'] = re.search(r'\bscreen_name.*?,',only).group()[15:-3]
                 item['tweet_user'] = all_user[0].value
                 item['tweet_alpha'] = all_user[-1].value
-                item['tweet_time']=parser.parse(parse('$..created_at').find(only)[1].value)
+                item['tweet_time'] = parser.parse(parse('$..created_at').find(only)[1].value)
                 item['tweet_text'] = '\n'.join([i.value for i in parse('$..full_text').find(only)])
-                item['user_thumb']=parse('$..profile_image_url_https').find(only)[0].value
-                #tweet_media = re.search(r"media_url_https.*?,", only)
+                item['user_thumb'] = parse('$..profile_image_url_https').find(only)[0].value
+                # tweet_media = re.search(r"media_url_https.*?,", only)
                 tweet_media = parse('$..media_url_https').find(only)
                 item['tweet_media'] = tweet_media[0].value if tweet_media else ''
                 print('未处理', item, sep='\n')

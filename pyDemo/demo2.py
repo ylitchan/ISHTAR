@@ -23,598 +23,626 @@ import tweepy
 # a=api.remove_list_member(list_id=list_id, user_id=user_id)
 # print(a)
 from dateutil import parser
-only = {
-    "entryId": "tweet-1647010884370198528",
-    "sortIndex": "1647052074975756285",
-    "content": {
-        "entryType": "TimelineTimelineItem",
-        "__typename": "TimelineTimelineItem",
-        "itemContent": {
-            "itemType": "TimelineTweet",
-            "__typename": "TimelineTweet",
-            "tweet_results": {
-                "result": {
-                    "__typename": "Tweet",
-                    "rest_id": "1647010884370198528",
-                    "core": {
-                        "user_results": {
-                            "result": {
-                                "__typename": "User",
-                                "id": "VXNlcjoxNjM5NjY1MTU0OTkxMzA4ODAw",
-                                "rest_id": "1639665154991308800",
-                                "affiliates_highlighted_label": {},
-                                "has_graduated_access": 'False',
-                                "is_blue_verified": 'False',
-                                "profile_image_shape": "Circle",
-                                "legacy": {
-                                    "following": 'true',
-                                    "can_dm": 'False',
-                                    "can_media_tag": 'true',
-                                    "created_at": "Sat Mar 25 16:26:58 +0000 2023",
-                                    "default_profile": 'true',
-                                    "default_profile_image": 'False',
-                                    "description": "The magic starts here",
-                                    "entities": {
-                                        "description": {
-                                            "urls": []
-                                        },
-                                        "url": {
-                                            "urls": [
-                                                {
-                                                    "display_url": "app.mute.io/swap",
-                                                    "expanded_url": "https://app.mute.io/swap",
-                                                    "url": "https://t.co/fJK9vPLl6w",
-                                                    "indices": [
-                                                        0,
-                                                        23
-                                                    ]
-                                                }
-                                            ]
-                                        }
-                                    },
-                                    "fast_followers_count": 0,
-                                    "favourites_count": 31,
-                                    "followers_count": 8492,
-                                    "friends_count": 21,
-                                    "has_custom_timelines": 'False',
-                                    "is_translator": 'False',
-                                    "listed_count": 24,
-                                    "location": "",
-                                    "media_count": 0,
-                                    "name": "POupi",
-                                    "normal_followers_count": 8492,
-                                    "pinned_tweet_ids_str": [],
-                                    "possibly_sensitive": 'False',
-                                    "profile_banner_url": "https://pbs.twimg.com/profile_banners/1639665154991308800/1680630241",
-                                    "profile_image_url_https": "https://pbs.twimg.com/profile_images/1643308449206247438/V5uxhyLr_normal.jpg",
-                                    "profile_interstitial_type": "",
-                                    "screen_name": "p_oupi",
-                                    "statuses_count": 33,
-                                    "translator_type": "none",
-                                    "url": "https://t.co/fJK9vPLl6w",
-                                    "verified": 'False',
-                                    "want_retweets": 'true',
-                                    "withheld_in_countries": []
-                                }
-                            }
-                        }
-                    },
-                    "unmention_data": {},
-                    "edit_control": {
-                        "edit_tweet_ids": [
-                            "1647010884370198528"
-                        ],
-                        "editable_until_msecs": "1681514769473",
-                        "is_edit_eligible": 'False',
-                        "edits_remaining": "5"
-                    },
-                    "edit_perspective": {
-                        "favorited": 'False',
-                        "retweeted": 'False'
-                    },
-                    "is_translatable": 'true',
-                    "views": {
-                        "state": "Enabled"
-                    },
-                    "source": "<a href=\"https://twitter.com/\" rel=\"nofollow\">Beeessss11644388432360230912a</a>",
-                    "legacy": {
-                        "bookmark_count": 0,
-                        "bookmarked": 'False',
-                        "created_at": "Fri Apr 14 22:56:09 +0000 2023",
-                        "conversation_id_str": "1647010884370198528",
-                        "display_text_range": [
-                            0,
-                            92
-                        ],
-                        "entities": {
-                            "media": [
-                                {
-                                    "display_url": "pic.twitter.com/JBE6ekCYuK",
-                                    "expanded_url": "https://twitter.com/PaddasFinance/status/1647010774638907392/photo/1",
-                                    "id_str": "1647010609387454464",
-                                    "indices": [
-                                        69,
-                                        92
-                                    ],  # https://pbs.twimg.com/tweet_video_thumb/FtrE2OsXsAMPGMl.jpg
-                                    "media_url_https": "https://pbs.twimg.com/media/FttbbEnWwAAxAIi.jpg",
-                                    "source_status_id_str": "1647010774638907392",
-                                    "source_user_id_str": "1630090542758477824",
-                                    "type": "photo",
-                                    "url": "https://t.co/JBE6ekCYuK",
-                                    "sizes": {
-                                        "large": {
-                                            "h": 924,
-                                            "w": 1640,
-                                            "resize": "fit"
-                                        },
-                                        "medium": {
-                                            "h": 676,
-                                            "w": 1200,
-                                            "resize": "fit"
-                                        },
-                                        "small": {
-                                            "h": 383,
-                                            "w": 680,
-                                            "resize": "fit"
-                                        },
-                                        "thumb": {
-                                            "h": 150,
-                                            "w": 150,
-                                            "resize": "crop"
-                                        }
-                                    },
-                                    "original_info": {
-                                        "height": 924,
-                                        "width": 1640,
-                                        "focus_rects": [
-                                            {
-                                                "x": 0,
-                                                "y": 6,
-                                                "w": 1640,
-                                                "h": 918
-                                            },
-                                            {
-                                                "x": 716,
-                                                "y": 0,
-                                                "w": 924,
-                                                "h": 924
-                                            },
-                                            {
-                                                "x": 829,
-                                                "y": 0,
-                                                "w": 811,
-                                                "h": 924
-                                            },
-                                            {
-                                                "x": 1178,
-                                                "y": 0,
-                                                "w": 462,
-                                                "h": 924
-                                            },
-                                            {
-                                                "x": 0,
-                                                "y": 0,
-                                                "w": 1640,
-                                                "h": 924
-                                            }
-                                        ]
-                                    }
-                                }
-                            ],
-                            "user_mentions": [
-                                {
-                                    "id_str": "1630090542758477824",
-                                    "name": "Paddas Finance",
-                                    "screen_name": "PaddasFinance",
-                                    "indices": [
-                                        3,
-                                        17
-                                    ]
-                                },
-                                {
-                                    "id_str": "1191702416971968512",
-                                    "name": "zkSync ∎",
-                                    "screen_name": "zksync",
-                                    "indices": [
-                                        32,
-                                        39
-                                    ]
-                                }
-                            ],
-                            "urls": [],
-                            "hashtags": [],
-                            "symbols": []
-                        },
-                        "extended_entities": {
-                            "media": [
-                                {
-                                    "display_url": "pic.twitter.com/JBE6ekCYuK",
-                                    "expanded_url": "https://twitter.com/PaddasFinance/status/1647010774638907392/photo/1",
-                                    "id_str": "1647010609387454464",
-                                    "indices": [
-                                        69,
-                                        92
-                                    ],
-                                    "media_key": "3_1647010609387454464",
-                                    "media_url_https": "https://pbs.twimg.com/media/FttbbEnWwAAxAIi.jpg",
-                                    "source_status_id_str": "1647010774638907392",
-                                    "source_user_id_str": "1630090542758477824",
-                                    "type": "photo",
-                                    "url": "https://t.co/JBE6ekCYuK",
-                                    "ext_media_availability": {
-                                        "status": "Available"
-                                    },
-                                    "sizes": {
-                                        "large": {
-                                            "h": 924,
-                                            "w": 1640,
-                                            "resize": "fit"
-                                        },
-                                        "medium": {
-                                            "h": 676,
-                                            "w": 1200,
-                                            "resize": "fit"
-                                        },
-                                        "small": {
-                                            "h": 383,
-                                            "w": 680,
-                                            "resize": "fit"
-                                        },
-                                        "thumb": {
-                                            "h": 150,
-                                            "w": 150,
-                                            "resize": "crop"
-                                        }
-                                    },
-                                    "original_info": {
-                                        "height": 924,
-                                        "width": 1640,
-                                        "focus_rects": [
-                                            {
-                                                "x": 0,
-                                                "y": 6,
-                                                "w": 1640,
-                                                "h": 918
-                                            },
-                                            {
-                                                "x": 716,
-                                                "y": 0,
-                                                "w": 924,
-                                                "h": 924
-                                            },
-                                            {
-                                                "x": 829,
-                                                "y": 0,
-                                                "w": 811,
-                                                "h": 924
-                                            },
-                                            {
-                                                "x": 1178,
-                                                "y": 0,
-                                                "w": 462,
-                                                "h": 924
-                                            },
-                                            {
-                                                "x": 0,
-                                                "y": 0,
-                                                "w": 1640,
-                                                "h": 924
-                                            }
-                                        ]
-                                    }
-                                }
-                            ]
-                        },
-                        "favorite_count": 0,
-                        "favorited": 'False',
-                        "full_text": "RT @PaddasFinance: Comment your @zksync to summon something special. https://t.co/JBE6ekCYuK",
-                        "is_quote_status": 'False',
-                        "lang": "en",
-                        "possibly_sensitive": 'False',
-                        "possibly_sensitive_editable": 'true',
-                        "quote_count": 0,
-                        "reply_count": 0,
-                        "retweet_count": 67,
-                        "retweeted": 'False',
-                        "user_id_str": "1639665154991308800",
-                        "id_str": "1647010884370198528",
-                        "retweeted_status_result": {
-                            "result": {
-                                "__typename": "Tweet",
-                                "rest_id": "1647010774638907392",
-                                "core": {
-                                    "user_results": {
-                                        "result": {
-                                            "__typename": "User",
-                                            "id": "VXNlcjoxNjMwMDkwNTQyNzU4NDc3ODI0",
-                                            "rest_id": "1630090542758477824",
-                                            "affiliates_highlighted_label": {},
-                                            "has_graduated_access": 'true',
-                                            "is_blue_verified": 'False',
-                                            "profile_image_shape": "Circle",
-                                            "legacy": {
-                                                "can_dm": 'true',
-                                                "can_media_tag": 'true',
-                                                "created_at": "Mon Feb 27 06:20:48 +0000 2023",
-                                                "default_profile": 'true',
-                                                "default_profile_image": 'False',
-                                                "description": "The first AutoStaking protocol on zkSync",
-                                                "entities": {
-                                                    "description": {
-                                                        "urls": []
-                                                    },
-                                                    "url": {
-                                                        "urls": [
-                                                            {
-                                                                "display_url": "paddas.finance",
-                                                                "expanded_url": "http://paddas.finance",
-                                                                "url": "https://t.co/ILb1gETYlM",
-                                                                "indices": [
-                                                                    0,
-                                                                    23
-                                                                ]
-                                                            }
-                                                        ]
-                                                    }
-                                                },
-                                                "fast_followers_count": 0,
-                                                "favourites_count": 0,
-                                                "followers_count": 609,
-                                                "friends_count": 2,
-                                                "has_custom_timelines": 'False',
-                                                "is_translator": 'False',
-                                                "listed_count": 9,
-                                                "location": "",
-                                                "media_count": 2,
-                                                "name": "Paddas Finance",
-                                                "normal_followers_count": 609,
-                                                "pinned_tweet_ids_str": [
-                                                    "1646980761096970240"
-                                                ],
-                                                "possibly_sensitive": 'False',
-                                                "profile_banner_url": "https://pbs.twimg.com/profile_banners/1630090542758477824/1681384539",
-                                                "profile_image_url_https": "https://pbs.twimg.com/profile_images/1646474104130744320/Jen5T6WY_normal.jpg",
-                                                "profile_interstitial_type": "",
-                                                "screen_name": "PaddasFinance",
-                                                "statuses_count": 6,
-                                                "translator_type": "none",
-                                                "url": "https://t.co/ILb1gETYlM",
-                                                "verified": 'False',
-                                                "want_retweets": 'False',
-                                                "withheld_in_countries": []
-                                            }
-                                        }
-                                    }
-                                },
-                                "unmention_data": {},
-                                "edit_control": {
-                                    "edit_tweet_ids": [
-                                        "1647010774638907392"
-                                    ],
-                                    "editable_until_msecs": "1681514743000",
-                                    "is_edit_eligible": 'true',
-                                    "edits_remaining": "5"
-                                },
-                                "edit_perspective": {
-                                    "favorited": 'False',
-                                    "retweeted": 'False'
-                                },
-                                "is_translatable": 'true',
-                                "views": {
-                                    "count": "2774",
-                                    "state": "EnabledWithCount"
-                                },
-                                "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
-                                "legacy": {
-                                    "bookmark_count": 0,
-                                    "bookmarked": 'False',
-                                    "created_at": "Fri Apr 14 22:55:43 +0000 2023",
-                                    "conversation_id_str": "1647010774638907392",
-                                    "display_text_range": [
-                                        0,
-                                        49
-                                    ],
-                                    "entities": {
-                                        "media": [
-                                            {
-                                                "display_url": "pic.twitter.com/JBE6ekCYuK",
-                                                "expanded_url": "https://twitter.com/PaddasFinance/status/1647010774638907392/photo/1",
-                                                "id_str": "1647010609387454464",
-                                                "indices": [
-                                                    50,
-                                                    73
-                                                ],
-                                                "media_url_https": "https://pbs.twimg.com/media/FttbbEnWwAAxAIi.jpg",
-                                                "type": "photo",
-                                                "url": "https://t.co/JBE6ekCYuK",
-                                                "sizes": {
-                                                    "large": {
-                                                        "h": 924,
-                                                        "w": 1640,
-                                                        "resize": "fit"
-                                                    },
-                                                    "medium": {
-                                                        "h": 676,
-                                                        "w": 1200,
-                                                        "resize": "fit"
-                                                    },
-                                                    "small": {
-                                                        "h": 383,
-                                                        "w": 680,
-                                                        "resize": "fit"
-                                                    },
-                                                    "thumb": {
-                                                        "h": 150,
-                                                        "w": 150,
-                                                        "resize": "crop"
-                                                    }
-                                                },
-                                                "original_info": {
-                                                    "height": 924,
-                                                    "width": 1640,
-                                                    "focus_rects": [
-                                                        {
-                                                            "x": 0,
-                                                            "y": 6,
-                                                            "w": 1640,
-                                                            "h": 918
-                                                        },
-                                                        {
-                                                            "x": 716,
-                                                            "y": 0,
-                                                            "w": 924,
-                                                            "h": 924
-                                                        },
-                                                        {
-                                                            "x": 829,
-                                                            "y": 0,
-                                                            "w": 811,
-                                                            "h": 924
-                                                        },
-                                                        {
-                                                            "x": 1178,
-                                                            "y": 0,
-                                                            "w": 462,
-                                                            "h": 924
-                                                        },
-                                                        {
-                                                            "x": 0,
-                                                            "y": 0,
-                                                            "w": 1640,
-                                                            "h": 924
-                                                        }
-                                                    ]
-                                                }
-                                            }
-                                        ],
-                                        "user_mentions": [
-                                            {
-                                                "id_str": "1191702416971968512",
-                                                "name": "zkSync ∎",
-                                                "screen_name": "zksync",
-                                                "indices": [
-                                                    13,
-                                                    20
-                                                ]
-                                            }
-                                        ],
-                                        "urls": [],
-                                        "hashtags": [],
-                                        "symbols": []
-                                    },
-                                    "extended_entities": {
-                                        "media": [
-                                            {
-                                                "display_url": "pic.twitter.com/JBE6ekCYuK",
-                                                "expanded_url": "https://twitter.com/PaddasFinance/status/1647010774638907392/photo/1",
-                                                "id_str": "1647010609387454464",
-                                                "indices": [
-                                                    50,
-                                                    73
-                                                ],
-                                                "media_key": "3_1647010609387454464",
-                                                "media_url_https": "https://pbs.twimg.com/media/FttbbEnWwAAxAIi.jpg",
-                                                "type": "photo",
-                                                "url": "https://t.co/JBE6ekCYuK",
-                                                "ext_media_availability": {
-                                                    "status": "Available"
-                                                },
-                                                "sizes": {
-                                                    "large": {
-                                                        "h": 924,
-                                                        "w": 1640,
-                                                        "resize": "fit"
-                                                    },
-                                                    "medium": {
-                                                        "h": 676,
-                                                        "w": 1200,
-                                                        "resize": "fit"
-                                                    },
-                                                    "small": {
-                                                        "h": 383,
-                                                        "w": 680,
-                                                        "resize": "fit"
-                                                    },
-                                                    "thumb": {
-                                                        "h": 150,
-                                                        "w": 150,
-                                                        "resize": "crop"
-                                                    }
-                                                },
-                                                "original_info": {
-                                                    "height": 924,
-                                                    "width": 1640,
-                                                    "focus_rects": [
-                                                        {
-                                                            "x": 0,
-                                                            "y": 6,
-                                                            "w": 1640,
-                                                            "h": 918
-                                                        },
-                                                        {
-                                                            "x": 716,
-                                                            "y": 0,
-                                                            "w": 924,
-                                                            "h": 924
-                                                        },
-                                                        {
-                                                            "x": 829,
-                                                            "y": 0,
-                                                            "w": 811,
-                                                            "h": 924
-                                                        },
-                                                        {
-                                                            "x": 1178,
-                                                            "y": 0,
-                                                            "w": 462,
-                                                            "h": 924
-                                                        },
-                                                        {
-                                                            "x": 0,
-                                                            "y": 0,
-                                                            "w": 1640,
-                                                            "h": 924
-                                                        }
-                                                    ]
-                                                }
-                                            }
-                                        ]
-                                    },
-                                    "favorite_count": 100,
-                                    "favorited": 'False',
-                                    "full_text": "Comment your @zksync to summon something special. https://t.co/JBE6ekCYuK",
-                                    "is_quote_status": 'False',
-                                    "lang": "en",
-                                    "possibly_sensitive": 'False',
-                                    "possibly_sensitive_editable": 'true',
-                                    "quote_count": 0,
-                                    "reply_count": 107,
-                                    "retweet_count": 67,
-                                    "retweeted": 'False',
-                                    "user_id_str": "1630090542758477824",
-                                    "id_str": "1647010774638907392"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "tweetDisplayType": "Tweet"
-        },
-        "clientEventInfo": {
-            "component": "suggest_organic_list_tweet",
-            "element": "tweet",
-            "details": {
-                "timelinesDetails": {
-                    "injectionType": "OrganicListTweet"
-                }
-            }
-        }
-    }
-}
-b=jsonpath_ng.parse("$..created_at").find(only)[1].value
-print(b)
-print(parser.parse(b))
+# only = {
+#     "entryId": "tweet-1647010884370198528",
+#     "sortIndex": "1647052074975756285",
+#     "content": {
+#         "entryType": "TimelineTimelineItem",
+#         "__typename": "TimelineTimelineItem",
+#         "itemContent": {
+#             "itemType": "TimelineTweet",
+#             "__typename": "TimelineTweet",
+#             "tweet_results": {
+#                 "result": {
+#                     "__typename": "Tweet",
+#                     "rest_id": "1647010884370198528",
+#                     "core": {
+#                         "user_results": {
+#                             "result": {
+#                                 "__typename": "User",
+#                                 "id": "VXNlcjoxNjM5NjY1MTU0OTkxMzA4ODAw",
+#                                 "rest_id": "1639665154991308800",
+#                                 "affiliates_highlighted_label": {},
+#                                 "has_graduated_access": 'False',
+#                                 "is_blue_verified": 'False',
+#                                 "profile_image_shape": "Circle",
+#                                 "legacy": {
+#                                     "following": 'true',
+#                                     "can_dm": 'False',
+#                                     "can_media_tag": 'true',
+#                                     "created_at": "Sat Mar 25 16:26:58 +0000 2023",
+#                                     "default_profile": 'true',
+#                                     "default_profile_image": 'False',
+#                                     "description": "The magic starts here",
+#                                     "entities": {
+#                                         "description": {
+#                                             "urls": []
+#                                         },
+#                                         "url": {
+#                                             "urls": [
+#                                                 {
+#                                                     "display_url": "app.mute.io/swap",
+#                                                     "expanded_url": "https://app.mute.io/swap",
+#                                                     "url": "https://t.co/fJK9vPLl6w",
+#                                                     "indices": [
+#                                                         0,
+#                                                         23
+#                                                     ]
+#                                                 }
+#                                             ]
+#                                         }
+#                                     },
+#                                     "fast_followers_count": 0,
+#                                     "favourites_count": 31,
+#                                     "followers_count": 8492,
+#                                     "friends_count": 21,
+#                                     "has_custom_timelines": 'False',
+#                                     "is_translator": 'False',
+#                                     "listed_count": 24,
+#                                     "location": "",
+#                                     "media_count": 0,
+#                                     "name": "POupi",
+#                                     "normal_followers_count": 8492,
+#                                     "pinned_tweet_ids_str": [],
+#                                     "possibly_sensitive": 'False',
+#                                     "profile_banner_url": "https://pbs.twimg.com/profile_banners/1639665154991308800/1680630241",
+#                                     "profile_image_url_https": "https://pbs.twimg.com/profile_images/1643308449206247438/V5uxhyLr_normal.jpg",
+#                                     "profile_interstitial_type": "",
+#                                     "screen_name": "p_oupi",
+#                                     "statuses_count": 33,
+#                                     "translator_type": "none",
+#                                     "url": "https://t.co/fJK9vPLl6w",
+#                                     "verified": 'False',
+#                                     "want_retweets": 'true',
+#                                     "withheld_in_countries": []
+#                                 }
+#                             }
+#                         }
+#                     },
+#                     "unmention_data": {},
+#                     "edit_control": {
+#                         "edit_tweet_ids": [
+#                             "1647010884370198528"
+#                         ],
+#                         "editable_until_msecs": "1681514769473",
+#                         "is_edit_eligible": 'False',
+#                         "edits_remaining": "5"
+#                     },
+#                     "edit_perspective": {
+#                         "favorited": 'False',
+#                         "retweeted": 'False'
+#                     },
+#                     "is_translatable": 'true',
+#                     "views": {
+#                         "state": "Enabled"
+#                     },
+#                     "source": "<a href=\"https://twitter.com/\" rel=\"nofollow\">Beeessss11644388432360230912a</a>",
+#                     "legacy": {
+#                         "bookmark_count": 0,
+#                         "bookmarked": 'False',
+#                         "created_at": "Fri Apr 14 22:56:09 +0000 2023",
+#                         "conversation_id_str": "1647010884370198528",
+#                         "display_text_range": [
+#                             0,
+#                             92
+#                         ],
+#                         "entities": {
+#                             "media": [
+#                                 {
+#                                     "display_url": "pic.twitter.com/JBE6ekCYuK",
+#                                     "expanded_url": "https://twitter.com/PaddasFinance/status/1647010774638907392/photo/1",
+#                                     "id_str": "1647010609387454464",
+#                                     "indices": [
+#                                         69,
+#                                         92
+#                                     ],  # https://pbs.twimg.com/tweet_video_thumb/FtrE2OsXsAMPGMl.jpg
+#                                     "media_url_https": "https://pbs.twimg.com/media/FttbbEnWwAAxAIi.jpg",
+#                                     "source_status_id_str": "1647010774638907392",
+#                                     "source_user_id_str": "1630090542758477824",
+#                                     "type": "photo",
+#                                     "url": "https://t.co/JBE6ekCYuK",
+#                                     "sizes": {
+#                                         "large": {
+#                                             "h": 924,
+#                                             "w": 1640,
+#                                             "resize": "fit"
+#                                         },
+#                                         "medium": {
+#                                             "h": 676,
+#                                             "w": 1200,
+#                                             "resize": "fit"
+#                                         },
+#                                         "small": {
+#                                             "h": 383,
+#                                             "w": 680,
+#                                             "resize": "fit"
+#                                         },
+#                                         "thumb": {
+#                                             "h": 150,
+#                                             "w": 150,
+#                                             "resize": "crop"
+#                                         }
+#                                     },
+#                                     "original_info": {
+#                                         "height": 924,
+#                                         "width": 1640,
+#                                         "focus_rects": [
+#                                             {
+#                                                 "x": 0,
+#                                                 "y": 6,
+#                                                 "w": 1640,
+#                                                 "h": 918
+#                                             },
+#                                             {
+#                                                 "x": 716,
+#                                                 "y": 0,
+#                                                 "w": 924,
+#                                                 "h": 924
+#                                             },
+#                                             {
+#                                                 "x": 829,
+#                                                 "y": 0,
+#                                                 "w": 811,
+#                                                 "h": 924
+#                                             },
+#                                             {
+#                                                 "x": 1178,
+#                                                 "y": 0,
+#                                                 "w": 462,
+#                                                 "h": 924
+#                                             },
+#                                             {
+#                                                 "x": 0,
+#                                                 "y": 0,
+#                                                 "w": 1640,
+#                                                 "h": 924
+#                                             }
+#                                         ]
+#                                     }
+#                                 }
+#                             ],
+#                             "user_mentions": [
+#                                 {
+#                                     "id_str": "1630090542758477824",
+#                                     "name": "Paddas Finance",
+#                                     "screen_name": "PaddasFinance",
+#                                     "indices": [
+#                                         3,
+#                                         17
+#                                     ]
+#                                 },
+#                                 {
+#                                     "id_str": "1191702416971968512",
+#                                     "name": "zkSync ∎",
+#                                     "screen_name": "zksync",
+#                                     "indices": [
+#                                         32,
+#                                         39
+#                                     ]
+#                                 }
+#                             ],
+#                             "urls": [],
+#                             "hashtags": [],
+#                             "symbols": []
+#                         },
+#                         "extended_entities": {
+#                             "media": [
+#                                 {
+#                                     "display_url": "pic.twitter.com/JBE6ekCYuK",
+#                                     "expanded_url": "https://twitter.com/PaddasFinance/status/1647010774638907392/photo/1",
+#                                     "id_str": "1647010609387454464",
+#                                     "indices": [
+#                                         69,
+#                                         92
+#                                     ],
+#                                     "media_key": "3_1647010609387454464",
+#                                     "media_url_https": "https://pbs.twimg.com/media/FttbbEnWwAAxAIi.jpg",
+#                                     "source_status_id_str": "1647010774638907392",
+#                                     "source_user_id_str": "1630090542758477824",
+#                                     "type": "photo",
+#                                     "url": "https://t.co/JBE6ekCYuK",
+#                                     "ext_media_availability": {
+#                                         "status": "Available"
+#                                     },
+#                                     "sizes": {
+#                                         "large": {
+#                                             "h": 924,
+#                                             "w": 1640,
+#                                             "resize": "fit"
+#                                         },
+#                                         "medium": {
+#                                             "h": 676,
+#                                             "w": 1200,
+#                                             "resize": "fit"
+#                                         },
+#                                         "small": {
+#                                             "h": 383,
+#                                             "w": 680,
+#                                             "resize": "fit"
+#                                         },
+#                                         "thumb": {
+#                                             "h": 150,
+#                                             "w": 150,
+#                                             "resize": "crop"
+#                                         }
+#                                     },
+#                                     "original_info": {
+#                                         "height": 924,
+#                                         "width": 1640,
+#                                         "focus_rects": [
+#                                             {
+#                                                 "x": 0,
+#                                                 "y": 6,
+#                                                 "w": 1640,
+#                                                 "h": 918
+#                                             },
+#                                             {
+#                                                 "x": 716,
+#                                                 "y": 0,
+#                                                 "w": 924,
+#                                                 "h": 924
+#                                             },
+#                                             {
+#                                                 "x": 829,
+#                                                 "y": 0,
+#                                                 "w": 811,
+#                                                 "h": 924
+#                                             },
+#                                             {
+#                                                 "x": 1178,
+#                                                 "y": 0,
+#                                                 "w": 462,
+#                                                 "h": 924
+#                                             },
+#                                             {
+#                                                 "x": 0,
+#                                                 "y": 0,
+#                                                 "w": 1640,
+#                                                 "h": 924
+#                                             }
+#                                         ]
+#                                     }
+#                                 }
+#                             ]
+#                         },
+#                         "favorite_count": 0,
+#                         "favorited": 'False',
+#                         "full_text": "RT @PaddasFinance: Comment your @zksync to summon something special. https://t.co/JBE6ekCYuK",
+#                         "is_quote_status": 'False',
+#                         "lang": "en",
+#                         "possibly_sensitive": 'False',
+#                         "possibly_sensitive_editable": 'true',
+#                         "quote_count": 0,
+#                         "reply_count": 0,
+#                         "retweet_count": 67,
+#                         "retweeted": 'False',
+#                         "user_id_str": "1639665154991308800",
+#                         "id_str": "1647010884370198528",
+#                         "retweeted_status_result": {
+#                             "result": {
+#                                 "__typename": "Tweet",
+#                                 "rest_id": "1647010774638907392",
+#                                 "core": {
+#                                     "user_results": {
+#                                         "result": {
+#                                             "__typename": "User",
+#                                             "id": "VXNlcjoxNjMwMDkwNTQyNzU4NDc3ODI0",
+#                                             "rest_id": "1630090542758477824",
+#                                             "affiliates_highlighted_label": {},
+#                                             "has_graduated_access": 'true',
+#                                             "is_blue_verified": 'False',
+#                                             "profile_image_shape": "Circle",
+#                                             "legacy": {
+#                                                 "can_dm": 'true',
+#                                                 "can_media_tag": 'true',
+#                                                 "created_at": "Mon Feb 27 06:20:48 +0000 2023",
+#                                                 "default_profile": 'true',
+#                                                 "default_profile_image": 'False',
+#                                                 "description": "The first AutoStaking protocol on zkSync",
+#                                                 "entities": {
+#                                                     "description": {
+#                                                         "urls": []
+#                                                     },
+#                                                     "url": {
+#                                                         "urls": [
+#                                                             {
+#                                                                 "display_url": "paddas.finance",
+#                                                                 "expanded_url": "http://paddas.finance",
+#                                                                 "url": "https://t.co/ILb1gETYlM",
+#                                                                 "indices": [
+#                                                                     0,
+#                                                                     23
+#                                                                 ]
+#                                                             }
+#                                                         ]
+#                                                     }
+#                                                 },
+#                                                 "fast_followers_count": 0,
+#                                                 "favourites_count": 0,
+#                                                 "followers_count": 609,
+#                                                 "friends_count": 2,
+#                                                 "has_custom_timelines": 'False',
+#                                                 "is_translator": 'False',
+#                                                 "listed_count": 9,
+#                                                 "location": "",
+#                                                 "media_count": 2,
+#                                                 "name": "Paddas Finance",
+#                                                 "normal_followers_count": 609,
+#                                                 "pinned_tweet_ids_str": [
+#                                                     "1646980761096970240"
+#                                                 ],
+#                                                 "possibly_sensitive": 'False',
+#                                                 "profile_banner_url": "https://pbs.twimg.com/profile_banners/1630090542758477824/1681384539",
+#                                                 "profile_image_url_https": "https://pbs.twimg.com/profile_images/1646474104130744320/Jen5T6WY_normal.jpg",
+#                                                 "profile_interstitial_type": "",
+#                                                 "screen_name": "PaddasFinance",
+#                                                 "statuses_count": 6,
+#                                                 "translator_type": "none",
+#                                                 "url": "https://t.co/ILb1gETYlM",
+#                                                 "verified": 'False',
+#                                                 "want_retweets": 'False',
+#                                                 "withheld_in_countries": []
+#                                             }
+#                                         }
+#                                     }
+#                                 },
+#                                 "unmention_data": {},
+#                                 "edit_control": {
+#                                     "edit_tweet_ids": [
+#                                         "1647010774638907392"
+#                                     ],
+#                                     "editable_until_msecs": "1681514743000",
+#                                     "is_edit_eligible": 'true',
+#                                     "edits_remaining": "5"
+#                                 },
+#                                 "edit_perspective": {
+#                                     "favorited": 'False',
+#                                     "retweeted": 'False'
+#                                 },
+#                                 "is_translatable": 'true',
+#                                 "views": {
+#                                     "count": "2774",
+#                                     "state": "EnabledWithCount"
+#                                 },
+#                                 "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+#                                 "legacy": {
+#                                     "bookmark_count": 0,
+#                                     "bookmarked": 'False',
+#                                     "created_at": "Fri Apr 14 22:55:43 +0000 2023",
+#                                     "conversation_id_str": "1647010774638907392",
+#                                     "display_text_range": [
+#                                         0,
+#                                         49
+#                                     ],
+#                                     "entities": {
+#                                         "media": [
+#                                             {
+#                                                 "display_url": "pic.twitter.com/JBE6ekCYuK",
+#                                                 "expanded_url": "https://twitter.com/PaddasFinance/status/1647010774638907392/photo/1",
+#                                                 "id_str": "1647010609387454464",
+#                                                 "indices": [
+#                                                     50,
+#                                                     73
+#                                                 ],
+#                                                 "media_url_https": "https://pbs.twimg.com/media/FttbbEnWwAAxAIi.jpg",
+#                                                 "type": "photo",
+#                                                 "url": "https://t.co/JBE6ekCYuK",
+#                                                 "sizes": {
+#                                                     "large": {
+#                                                         "h": 924,
+#                                                         "w": 1640,
+#                                                         "resize": "fit"
+#                                                     },
+#                                                     "medium": {
+#                                                         "h": 676,
+#                                                         "w": 1200,
+#                                                         "resize": "fit"
+#                                                     },
+#                                                     "small": {
+#                                                         "h": 383,
+#                                                         "w": 680,
+#                                                         "resize": "fit"
+#                                                     },
+#                                                     "thumb": {
+#                                                         "h": 150,
+#                                                         "w": 150,
+#                                                         "resize": "crop"
+#                                                     }
+#                                                 },
+#                                                 "original_info": {
+#                                                     "height": 924,
+#                                                     "width": 1640,
+#                                                     "focus_rects": [
+#                                                         {
+#                                                             "x": 0,
+#                                                             "y": 6,
+#                                                             "w": 1640,
+#                                                             "h": 918
+#                                                         },
+#                                                         {
+#                                                             "x": 716,
+#                                                             "y": 0,
+#                                                             "w": 924,
+#                                                             "h": 924
+#                                                         },
+#                                                         {
+#                                                             "x": 829,
+#                                                             "y": 0,
+#                                                             "w": 811,
+#                                                             "h": 924
+#                                                         },
+#                                                         {
+#                                                             "x": 1178,
+#                                                             "y": 0,
+#                                                             "w": 462,
+#                                                             "h": 924
+#                                                         },
+#                                                         {
+#                                                             "x": 0,
+#                                                             "y": 0,
+#                                                             "w": 1640,
+#                                                             "h": 924
+#                                                         }
+#                                                     ]
+#                                                 }
+#                                             }
+#                                         ],
+#                                         "user_mentions": [
+#                                             {
+#                                                 "id_str": "1191702416971968512",
+#                                                 "name": "zkSync ∎",
+#                                                 "screen_name": "zksync",
+#                                                 "indices": [
+#                                                     13,
+#                                                     20
+#                                                 ]
+#                                             }
+#                                         ],
+#                                         "urls": [],
+#                                         "hashtags": [],
+#                                         "symbols": []
+#                                     },
+#                                     "extended_entities": {
+#                                         "media": [
+#                                             {
+#                                                 "display_url": "pic.twitter.com/JBE6ekCYuK",
+#                                                 "expanded_url": "https://twitter.com/PaddasFinance/status/1647010774638907392/photo/1",
+#                                                 "id_str": "1647010609387454464",
+#                                                 "indices": [
+#                                                     50,
+#                                                     73
+#                                                 ],
+#                                                 "media_key": "3_1647010609387454464",
+#                                                 "media_url_https": "https://pbs.twimg.com/media/FttbbEnWwAAxAIi.jpg",
+#                                                 "type": "photo",
+#                                                 "url": "https://t.co/JBE6ekCYuK",
+#                                                 "ext_media_availability": {
+#                                                     "status": "Available"
+#                                                 },
+#                                                 "sizes": {
+#                                                     "large": {
+#                                                         "h": 924,
+#                                                         "w": 1640,
+#                                                         "resize": "fit"
+#                                                     },
+#                                                     "medium": {
+#                                                         "h": 676,
+#                                                         "w": 1200,
+#                                                         "resize": "fit"
+#                                                     },
+#                                                     "small": {
+#                                                         "h": 383,
+#                                                         "w": 680,
+#                                                         "resize": "fit"
+#                                                     },
+#                                                     "thumb": {
+#                                                         "h": 150,
+#                                                         "w": 150,
+#                                                         "resize": "crop"
+#                                                     }
+#                                                 },
+#                                                 "original_info": {
+#                                                     "height": 924,
+#                                                     "width": 1640,
+#                                                     "focus_rects": [
+#                                                         {
+#                                                             "x": 0,
+#                                                             "y": 6,
+#                                                             "w": 1640,
+#                                                             "h": 918
+#                                                         },
+#                                                         {
+#                                                             "x": 716,
+#                                                             "y": 0,
+#                                                             "w": 924,
+#                                                             "h": 924
+#                                                         },
+#                                                         {
+#                                                             "x": 829,
+#                                                             "y": 0,
+#                                                             "w": 811,
+#                                                             "h": 924
+#                                                         },
+#                                                         {
+#                                                             "x": 1178,
+#                                                             "y": 0,
+#                                                             "w": 462,
+#                                                             "h": 924
+#                                                         },
+#                                                         {
+#                                                             "x": 0,
+#                                                             "y": 0,
+#                                                             "w": 1640,
+#                                                             "h": 924
+#                                                         }
+#                                                     ]
+#                                                 }
+#                                             }
+#                                         ]
+#                                     },
+#                                     "favorite_count": 100,
+#                                     "favorited": 'False',
+#                                     "full_text": "Comment your @zksync to summon something special. https://t.co/JBE6ekCYuK",
+#                                     "is_quote_status": 'False',
+#                                     "lang": "en",
+#                                     "possibly_sensitive": 'False',
+#                                     "possibly_sensitive_editable": 'true',
+#                                     "quote_count": 0,
+#                                     "reply_count": 107,
+#                                     "retweet_count": 67,
+#                                     "retweeted": 'False',
+#                                     "user_id_str": "1630090542758477824",
+#                                     "id_str": "1647010774638907392"
+#                                 }
+#                             }
+#                         }
+#                     }
+#                 }
+#             },
+#             "tweetDisplayType": "Tweet"
+#         },
+#         "clientEventInfo": {
+#             "component": "suggest_organic_list_tweet",
+#             "element": "tweet",
+#             "details": {
+#                 "timelinesDetails": {
+#                     "injectionType": "OrganicListTweet"
+#                 }
+#             }
+#         }
+#     }
+# }
+# b=jsonpath_ng.parse("$..created_at").find(only)[1].value
+# print(b)
+# from dateutil.tz import gettz
+# # c=datetime.datetime.strptime('2023-04-23 12:12:53 CST','%Y-%m-%d %H:%M:%S %Z')
+# # print(c)
+# c=parser.parse('2023-04-23 12:12:53 UST')#.replace(tzinfo=gettz('Asia/Manila'))#.strftime('%Y-%m-%d %H:%M:%S %Z')
+# print(c)
+import speech_recognition as sr
+
+import ffmpeg
+from pydub import AudioSegment
+
+import wave
+import moviepy.editor as mpe
+
+
+audioclip = mpe.AudioFileClip("file_0.oga")
+audioclip.write_audiofile("output1.wav")
+
+r = sr.Recognizer()
+with sr.AudioFile('output.wav') as source:
+    # 将语音文件读取为AudioData对象
+    audio_data = r.record(source)
+# 使用Google Speech Recognition进行识别
+text = r.recognize_google(audio_data,language='zh-CN')
+
+# 输出识别结果
+print(text)
+# d=datetime.datetime.strptime(str(c),'%Y-%m-%d %H:%M:%S %Z')
+# print(d)
+# print(time.strftime()time()strptime('%Y-%m-%d %H:%M:%S %Z')+'jjj')
 
 # b=[2,3,4]['0']
 # print(str(a))
@@ -667,18 +695,18 @@ print(parser.parse(b))
 #     schedule.run_pending()
 #     time.sleep(1800)
 #
-# import slack
-#
-# # SLACK_TOKEN = "xoxb-5109321480134-5119781200516-a9jKJpORzVF3up5IrAYjU2yb"
-# SLACK_TOKEN ='xoxp-5109321480134-5118401919620-5102871511639-654411afa70cc49b9fb4bbcd8f548c14'
-# CHANNEL_ID = "C052ZB95CQP"
-#
-# client = slack.WebClient(SLACK_TOKEN)
-# response = client.chat_postMessage(
-#     channel=CHANNEL_ID,
-#     text="<@U053SG7AC01> 你好啊",as_user=True
-#
-# )
+import slack
+
+# SLACK_TOKEN = "xoxb-5109321480134-5119781200516-a9jKJpORzVF3up5IrAYjU2yb"
+SLACK_TOKEN ='xoxp-5109321480134-5118401919620-5153089528371-48fc79253ec7046c7a4263436e3b43f5'
+CHANNEL_ID = "C052ZB95CQP"
+
+client = slack.WebClient(SLACK_TOKEN)
+response = client.chat_postMessage(
+    channel=CHANNEL_ID,
+    text="<@U053SG7AC01> 你好啊",as_user=True
+
+)
 # import requests
 # jsons={'_x_id': '14d3f3a0-1681660134.009',
 # '_x_csid': 'pZHTOw8en3I',
@@ -703,8 +731,8 @@ print(parser.parse(b))
 #          'user-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36 Edg/112.0.1722.39',
 #          'content-type': 'multipart/form-data; boundary=----WebKitFormBoundaryNZPOGxCMA0JV8hwj'}
 # a=requests.post('https://day-3eh6396.slack.com/api/chat.postMessage',data=jsons,headers=headers)
-a=requests.post('http://127.0.0.1:8000/newproject')
-print(a.json())
+# a=requests.post('http://127.0.0.1:8000/newproject')
+# print(a.json())
 # regex = r'(cat)|(dog)'
 # match = re.search(regex, 'hello ')
 
