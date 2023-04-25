@@ -39,17 +39,19 @@ class TweetPipeline(object):
                 media_text = ''
             tweet_text = item['tweet_text'] + '\n' + media_text
 
-            msg = [{"role": "assistant", "content": "sale:%Y-%m-%d %H:%M:%S %Z,launch:%Y-%m-%d %H:%M:%S %Z"},
+            msg = [#{"role": "assistant", "content": "sale:%Y-%m-%d %H:%M:%S %Z,launch:%Y-%m-%d %H:%M:%S %Z"},
                    {"role": "user", "content": '当前时间' + time.strftime(
-                       '%Y-%m-%d %H:%M:%S %Z') + '\n' + tweet_text + '按照之前的格式提取以上内容中代币sale时间/代币launch时间'}]
+                       '%Y-%m-%d %H:%M:%S %Z') + '\n' + tweet_text + '根据当前时间并按照之前的格式提取以上内容中代币sale时间(格式为%Y-%m-%d %H:%M:%S %Z)/代币launch时间(格式为%Y-%m-%d %H:%M:%S %Z)/代币token(格式为$token)/代币发射chain(格式为@chain)'}]
 
             hf = chatGPT(msg)
             item['tweet_gpt'] = hf
             # print(len(re.findall(r'unknown', hf, re.I)))
-            alpha_time = re.search(
-                r'(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2} \w+)|(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2} 中国标准时间)', hf)
+            alpha = re.findall(
+                r'\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2} \w+|\$[A-Za-z0-9_]+|@[A-Za-z0-9_]+',
+                hf.replace('中国标准时间', 'CST'), re.I)
+            alpha_time = re.search(r'\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2} \w+', str(alpha), re.I)
             if alpha_time:
-                item['alpha_time'] = alpha_time.group().replace('中国标准时间', 'CST')
+                item['alpha_time'] = ' \| '.join(alpha)
                 bot.send_message(-980470620,
                                  '[' + item['tweet_user'] + ']' + '(https://twitter\.com/' + item[
                                      'tweet_user'] + ')' + ' @[' + item[
@@ -58,7 +60,7 @@ class TweetPipeline(object):
                                                                                               '\-') + ']' + '(https://twitter\.com/' +
                                  item['tweet_user'] + '/status/' + item['tweet_id'] + ')\n\n' + '`' + item[
                                      'tweet_text'] + '`', parse_mode="MarkdownV2", disable_web_page_preview=False)
-                item['alpha_datetime'] = parser.parse(item['alpha_time'])
+                item['alpha_datetime'] = parser.parse(alpha_time[0])
                 item.save()
             # print(tweet_text, hf, sep='\n') 发送消息 producer.send('alpha', str('@' + item['tweet_user'] + '\n' + hf +
             # '\n详见以下推文https://twitter.com/' + item[ 'tweet_user'] + '/status/' + item['tweet_id'] + '\n' + item[

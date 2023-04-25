@@ -2,7 +2,7 @@
 import json
 import random
 import re
-
+from jsonpath_ng import parse
 import openai
 import requests
 import tweepy
@@ -88,15 +88,19 @@ async def root(json=Body(None)):
 
 @app.post("/ishtar")
 async def events(json=Body(None)):
-    print('===================================')
-    print(json)
+    # print('===================================',json)
+    user=parse('$..user').find(json)[0].value
+    msg=parse('$..text').find(json)[0].value
+    if not re.search(r'_*Please note|_Typing…_',msg) and 'U053GBTT1J8' not in user:
+        print(msg)
 
-    # if "challenge" in data:
-    #     # Respond to the Slack challenge
-    #     return {"challenge": data["challenge"]}
-    #
-    # # Handle other Slack events here
-    # # ...
+
+    if "challenge" in json:
+        # Respond to the Slack challenge
+        return {"challenge": json["challenge"]}
+
+    # Handle other Slack events here
+    # ...
 
     return {"message": "Received Slack event"}
 

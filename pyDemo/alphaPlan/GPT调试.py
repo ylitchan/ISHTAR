@@ -7,12 +7,7 @@ openai.api_key = os.getenv("openai")
 res = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
 # messages=[{"role": "assistant", "content":"sale:unknown,launch:unknown,listing:unknown,liquidity providing:unknown,airdrop:unknown"},{"role": "user","content": 'We will be having a community AMA to update everyone on:Apr 5, Wed, 9PM UTC+85' + '\n按照之前的格式提取以上内容中代币sale时间/代币launch时间/代币listing时间/代币liquidity providing时间/代币airdrop时间,若时间为现在则为now,若为其他情况则为unknown'}]
-        messages=[{"role": "assistant", "content":"sale:%Y-%m-%d %H:%M:%S %Z,launch:%Y-%m-%d %H:%M:%S %Z"},{"role": "user","content":  '当前时间'+time.strftime('%Y-%m-%d %H:%M:%S %Z')+'\nLAUNCHING TOKEN 8 PM UTC  (7 HOURS) ⏰ Reply with your $SOL Wallet to be eligible for our $PEPEF Airdrop 🪪\n' + '按照之前的格式提取以上内容中代币sale时间/代币launch时间'}]
-    )
-res = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-# messages=[{"role": "assistant", "content":"sale:unknown,launch:unknown,listing:unknown,liquidity providing:unknown,airdrop:unknown"},{"role": "user","content": 'We will be having a community AMA to update everyone on:Apr 5, Wed, 9PM UTC+85' + '\n按照之前的格式提取以上内容中代币sale时间/代币launch时间/代币listing时间/代币liquidity providing时间/代币airdrop时间,若时间为现在则为now,若为其他情况则为unknown'}]
-        messages=[{"role": "system", "content":"全身心扮演女朋友"},{"role": "user","content":  '你爱我吗'}]
+        messages=[{"role": "user","content":  '当前时间'+time.strftime('%Y-%m-%d %H:%M:%S %Z')+'\nStealth Launch Sept 2022 of $SECT on arb' + '根据当前时间并按照之前的格式提取以上内容中代币sale时间(格式为%Y-%m-%d %H:%M:%S %Z)/代币launch时间(格式为%Y-%m-%d %H:%M:%S %Z)/代币token(格式为$token)/代币发射chain(格式为@chain)'}]
     )
 print(u"%s" % res['choices'][0]['message']['content'])
 # print(re.search(r'\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2} \w+',u"%s" % res['choices'][0]['message']['content']).group())

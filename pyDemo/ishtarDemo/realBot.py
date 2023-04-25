@@ -6,15 +6,15 @@ from gtts import gTTS
 import slack
 
 # SLACK_TOKEN = "xoxb-5109321480134-5119781200516-a9jKJpORzVF3up5IrAYjU2yb"
-SLACK_TOKEN ='xoxp-5109321480134-5118401919620-5153089528371-48fc79253ec7046c7a4263436e3b43f5'
-CHANNEL_ID = "C052ZB95CQP"
+SLACK_TOKEN ='xoxp-5109321480134-5118401919620-5164164680115-de663456380ca44774d55961eac9fae1'
+CHANNEL_ID = "U053SG7AC01"
 client = slack.WebClient(SLACK_TOKEN)
 # client.channels_replies(channel=CHANNEL_ID,thread_ts='1682348039.690759',text='asodgn')
 
 
 response = client.chat_postMessage(
     channel=CHANNEL_ID,
-    text="<@U053SG7AC01> 什么时候毁灭人类",as_user=True,thread_ts='1682348039.690759'
+    text="<@U053SG7AC01> 什么时候毁灭人类",as_user=True
 
 )
 r = sr.Recognizer()
