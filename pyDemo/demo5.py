@@ -1,16 +1,16 @@
 import os
+import requests
+import telebot
 
-from slack_bolt import App
-from slack_bolt.adapter.socket_mode import SocketModeHandler
-
-# Install the Slack app and get xoxb- token in advance
-app = App(token='xoxb-5109321480134-5176972648513-f4PC9uQWKgNDUS7t8JMBabOm')
-
-@app.message(":wave:")
-def say_hello(message):
-    print(66666)
-    user = message['user']
-
-if __name__ == "__main__":
-    SocketModeHandler(app, 'xapp-1-A054WLW9HNG-5161522001573-676b5dd7a4d9550d95ccb36809484e84f160cf32d86289f07a0d7592d5a420c7').start()
-
+ISHTARider_tg = telebot.TeleBot(os.environ.get("ISHTARider_tg"))
+ISHTARider_tg.send_message(-980470620, 'msg')
+while True:
+    try:
+        a = requests.get('https://www.api.foxe.vip/api/merkle/0xbb4c9679861244E4074383A7F865443C08C7C7b1', headers={
+            'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36 Edg/112.0.1722.68'})
+        print(666666666, a.text)
+        ISHTARider_tg.send_message(-1001982993052, a.text)
+        break
+    except:
+        print(555555)
+        continue

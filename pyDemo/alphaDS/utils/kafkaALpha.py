@@ -1,44 +1,72 @@
 import datetime
-import random
-import time
-import requests
-from tools import *
-def add_member(userId):
-    headers = {
-        'cookie': 'des_opt_in=Y; _gcl_au=1.1.116267149.1676257589; g_state={"i_l":4,"i_p":1681369247236}; _ga_BYKEBDM7DS=GS1.1.1679899771.1.1.1679899844.0.0.0; _gid=GA1.2.1222660834.1680783998; at_check=true; mbox=PC#5d50de66cc054e10bf959bf00d0b670c.38_0#1744731433|session#db24585874f049b1b132445cb93bebc8#1681488493; _ga=GA1.2.1915858432.1679573193; kdt=2RNumTWyrbgn13h0nBHx95uYSPlUa6qMK390ud8K; _ga_34PHSZMC42=GS1.1.1681533194.15.0.1681533194.0.0.0; dnt=1; auth_multi="1568898000654680064:17e8044520b62a806dc73e68c70a019d1918e70f"; auth_token=614cb847793f6b268a64e8cf6ea05479d38bb67d; guest_id_ads=v1:168153922613435906; guest_id_marketing=v1:168153922613435906; lang=en; guest_id=v1:168153922613435906; twid=u=1573326306661793792; ct0=5bb87294748eabc856cd95ffc52dad00c7ef7abe56a299feebef81091739e80961b2842233a9a2222093250ad0270f0aedcb49afaeded4e26fa13092ad22b2cda67ba9a6ddc4ef96c139e351f9cbcaaa; personalization_id="v1_A5Cjem2NxpnAPzInu7PDFA=="',
-        'authorization': 'Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs=1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA',
-        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36 Edg/112.0.1722.39',
-        'x-csrf-token': '5bb87294748eabc856cd95ffc52dad00c7ef7abe56a299feebef81091739e80961b2842233a9a2222093250ad0270f0aedcb49afaeded4e26fa13092ad22b2cda67ba9a6ddc4ef96c139e351f9cbcaaa'
-        }
-    var = {
-        "variables": {
-            "listId": "1639838455760035840",
-            "userId": userId
-        },
-        "features": {
-            "blue_business_profile_image_shape_enabled": True,
-            "responsive_web_graphql_exclude_directive_enabled": True,
-            "verified_phone_label_enabled": False,
-            "responsive_web_graphql_skip_user_profile_image_extensions_enabled": False,
-            "responsive_web_graphql_timeline_navigation_enabled": True
-        },
-        "queryId": "x0smnIS1jLLXToRYg70g4Q"
-    }
-    headers = {
-        'cookie': 'des_opt_in=Y; _gcl_au=1.1.116267149.1676257589; g_state={"i_l":4,"i_p":1681369247236}; _ga_BYKEBDM7DS=GS1.1.1679899771.1.1.1679899844.0.0.0; mbox=PC#5d50de66cc054e10bf959bf00d0b670c.38_0#1744731433|session#db24585874f049b1b132445cb93bebc8#1681488493; _ga=GA1.2.1915858432.1679573193; _ga_34PHSZMC42=GS1.1.1681533194.15.0.1681533194.0.0.0; kdt=h36Lkx200pHHLSt2tM4Yz2JChWa3VX3gcj2Ywy4e; _gid=GA1.2.1864480522.1681736613; dnt=1; ads_prefs="HBESAAA="; auth_multi="1573326306661793792:612997b9f97500591e7d9ed2eb503c6a2b2f4d13"; auth_token=6a428ef19a32c348954ac2200680be380092af01; lang=zh-cn; guest_id=v1:168208164180005742; twid=u=1568898000654680064; ct0=328479905feeceae17422587781506a543bf77854dc0971628d182aa8baa4f598f1223f46bde86349c26bb53e62bff9058b2595e0932fc763f7e762d2d4380c94c83f2e7d2b2ec8cc9fbe79e88ae7a45; guest_id_marketing=v1:168208164180005742; guest_id_ads=v1:168208164180005742; personalization_id="v1_TDhwQ0RRjy5ZhLK5q8YMeA=="',
-        'authorization': 'Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs=1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA',
-        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36 Edg/112.0.1722.39',
-        'x-csrf-token': '328479905feeceae17422587781506a543bf77854dc0971628d182aa8baa4f598f1223f46bde86349c26bb53e62bff9058b2595e0932fc763f7e762d2d4380c94c83f2e7d2b2ec8cc9fbe79e88ae7a45'
-    }
-    res = requests.post('https://twitter.com/i/api/graphql/x0smnIS1jLLXToRYg70g4Q/ListAddMember', headers=headers,json=var)
-    print('推特列表添加',res)
+import json
+from utils.tools import *
 
 # 创建消费者实例
-consumer = KafkaConsumer('alpha', bootstrap_servers=['localhost:9092'], group_id='alpha-group')
+# consumer = KafkaConsumer('alpha', bootstrap_servers=['localhost:9092'], group_id='alpha-group')
+ISHTAR = KafkaConsumer('ISHTAR', bootstrap_servers=['localhost:9092'], group_id='ISHTAR-group', api_version=(0, 10, 2))
+ISHTARcher = KafkaConsumer('ISHTARcher', bootstrap_servers=['localhost:9092'], group_id='ISHTARcher-group',
+                           api_version=(0, 10, 2))
+ISHTARcher.subscribe('ISHTARcher')
+for i in ISHTAR:
+    print(i)
+
+
+# admin_client = KafkaAdminClient(
+#     bootstrap_servers="localhost:9092",
+#     client_id="admin"
+# )
+
+# 获取所有topic列表
+# topics = admin_client.list_topics()
+
+# 循环删除每个topic
+# for topic in topics:
+#     print(topic)
+# admin_client.delete_topics([topic])
 # 消费消息
-for message in consumer:
-    print('当前kafka消费时间',message.value.decode('utf-8'),datetime.datetime.now())
-    add_member(message.value.decode('utf-8'))
-    time.sleep(random.uniform(432, 576))
+def ishtarcher():
+    hf_list = ['我会模拟fate中的ISHTAR']
+    for message in ISHTARcher:
+        data = json.loads(message.value.decode('utf-8'))
+        msg = parse('$..text').find(data)[0].value
+        print('当前kafka消费时间', datetime.datetime.now(), hf_list, msg)
+        thread_ts = parse('$..thread_ts').find(data)
+        if thread_ts:
+            if thread_ts[0].value == '1682605196.796199':
+                ISHTAR_tg.send_message(5865410419, msg)
+            continue
+        channel = parse('$..channel').find(data)[0].value
+        bot_id = parse('$..bot_id').find(data)
+        if channel == 'D054NGFG2TY' and not bot_id:
+            hf = chat_gpt([{"role": "assistant", "content": hf_list[0]}, {"role": "user", "content": msg}])
+            requests.post('https://hooks.slack.com/services/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',
+                          json={'text': hf}, timeout=10)
+            hf_list[0] = hf
 
 
+def ishtar():
+    for message in ISHTAR:
+        try:
+            with open('input.oga', 'wb') as f:
+                f.write(message.value)
+            audioclip = mpe.AudioFileClip("input.oga")
+            audioclip.write_audiofile("output.wav")
+            r = sr.Recognizer()
+            with sr.AudioFile('output.wav') as source:
+                # 将语音文件读取为AudioData对象
+                audio_data = r.record(source)
+            # 使用Google Speech Recognition进行识别
+            text = r.recognize_google(audio_data, language='zh-CN')
+        except:
+            text = message.value.decode('utf-8')
+        finally:
+            # 输出识别结果
+            print('当前kafka消费时间', datetime.datetime.now(), text)
+            ISHTAR_slack.chat_postMessage(channel=CHANNEL_ID, text="<@U053SG7AC01> " + text, as_user=True,
+                                          thread_ts='1682605196.796199')
+
+# ISHTARcher_thread = threading.Thread(target=ishtarcher)
+# ISHTARcher_thread.start()
+# ISHTAR_thread = threading.Thread(target=ishtar)
+# ISHTAR_thread.start()

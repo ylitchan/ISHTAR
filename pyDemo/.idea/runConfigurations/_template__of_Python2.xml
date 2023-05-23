@@ -4,8 +4,14 @@
     <option name="INTERPRETER_OPTIONS" value="" />
     <option name="PARENT_ENVS" value="true" />
     <envs>
-      <env name="ISHTAR" value="6074723596:AAEeU2OjyTYVwf0fsLN854qe6X92prsEli8" />
-      <env name="openai" value="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" />
+      <env name="api_hash" value="9ebf10fdf695cbd9cc3dfddc682a93bf" />
+      <env name="api_id" value="22603189" />
+      <env name="AppID" value="wx024268fffe7368d2" />
+      <env name="AppSecret" value="a23a037139510dec3d6fd53df364b8a4" />
+      <env name="ISHTAR_slack" value="xoxp-5109321480134-5118401919620-5199080700659-c83755e3553dfc448cb1d28941e29c85" />
+      <env name="ISHTARider_slack" value="xoxb-5109321480134-5211887998353-wr3hBraqzBdvJKDvijxyonLl" />
+      <env name="ISHTARider_tg" value="5995779313:AAFK0ojWKSjy8DsisZinJ2xRFy5WW0t53tc" />
+      <env name="openai" value="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" />
       <env name="PYTHONUNBUFFERED" value="1" />
       <env name="telebot" value="6291256191:AAExAaaagpZgEAdBvhOMRN2JxlXr8om4qJA" />
       <env name="tweetapi" value="AAAAAAAAAAAAAAAAAAAAAPEGjQEAAAAAREb6WuXu7rNwm8ChnkpJoSJmSkw%3DXgtd6IlBg9SyrAcVhTOVucCrYL4OGfSjjCmMbfM8mFTi3CqUcL" />
