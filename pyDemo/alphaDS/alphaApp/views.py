@@ -32,7 +32,7 @@ def launching(request):
         tag = request.GET.get('tag', '')
         start_index = (page - 1) * pageSize
         end_index = pageSize * page
-        alpha = LaunchInfo.objects.filter(alpha_datetime__range=(start_time, end_time), alpha_time__contains=tag,
+        alpha = LaunchInfo.objects.filter(alpha_datetime__range=(start_time, end_time), tweet_tag__contains=tag,
                                           tweet_alpha__contains=account).order_by('alpha_datetime')
         total = len(alpha)
         alpha = alpha[start_index:end_index]

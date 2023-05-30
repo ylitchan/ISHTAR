@@ -119,7 +119,7 @@ class RandomDelayMiddleware(object):
 
     def process_request(self, request, spider):
         # delay = random.randint(0, self.delay)
-        delay = random.uniform(1, self.delay)
+        delay = random.uniform(0, self.delay)
         delay = float("%.1f" % delay)
         # logging.debug("### random delay: %s s ###" % delay)
         time.sleep(delay)

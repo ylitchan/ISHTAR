@@ -22,7 +22,7 @@ async def ishtar(json=Body(None)):
     member = re.findall(r'@.*?\n', text)
     for i in member:
         try:
-            user_id = client.get_user(username=i.replace('\n', '').replace('@', '')).data.id
+            user_id = client_tweet.get_user(username=i.replace('\n', '').replace('@', '')).data.id
             print(user_id)
             producer.send('alpha', str(user_id).encode('utf-8'))
         except:

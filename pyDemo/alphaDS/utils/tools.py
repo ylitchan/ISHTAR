@@ -26,7 +26,7 @@ ISHTARider_slack = WebClient(os.getenv('ISHTARider_slack'))
 CHANNEL_ID = "C052ZB95CQP"
 openai.api_key = os.environ.get('openai')
 bot = telebot.TeleBot(os.environ.get("telebot"))
-client = tweepy.Client(os.environ.get("tweetapi"))
+client_tweet = tweepy.Client(os.environ.get("tweetapi"))
 # admin = KafkaClient(bootstrap_servers=['localhost:9092'],api_version=(0,10,2))
 # admin.add_topic("ISHTAR")
 # producer = KafkaProducer(bootstrap_servers=['localhost:9092'],api_version=(0,10,2))
@@ -51,12 +51,17 @@ from selenium.webdriver.support.ui import WebDriverWait
 #                              value='//*[@id="__layout"]/div/main/div[@class="anime_tts view"]/div[@class="nya-container pt"]/button')
 
 hf_list = ['无限制AI']
+member = client_tweet.get_list_members('1639838455760035840').data
+if member:
+    already = [i.id for i in member]
+else:
+    already = []
 
 
 # ts_msg = {}
 # new_ts = {}
 
-
+# 獲取slack中消息列標識,用文本作為鍵
 def get_ts(val):
     consumer = producer.pubsub()
     consumer.subscribe(val)
@@ -75,6 +80,7 @@ def get_ts(val):
     #         continue
 
 
+# 微信小程序openid的獲取
 def get_openid(data):
     code = parse('$..code').find(data)[0].value
     res = requests.get(
@@ -83,6 +89,7 @@ def get_openid(data):
     return parse('$..openid').find(res.json())[0].value
 
 
+# c給hatgpt發消息
 def chat_gpt(msg: list):
     try:
         res = openai.ChatCompletion.create(
@@ -144,35 +151,41 @@ def chat_gpt(msg: list):
 #     ISHTAR_slack.chat_postMessage(channel=CHANNEL_ID, text="<@U053SG7AC01> " + response, as_user=True,
 #                                   thread_ts='1682605196.796199')
 #     print('发送消息到slack', response)
-
+# 處理ISHTAR作為用戶接收的消息
 def ISHTAR(request):
     data = request.data
     text = parse('$..text').find(data)[0].value
+    # 過濾無用信息
     if '_Typing…_' not in text and '&gt; _' not in text and '_Oops' not in text:
         print('收到slack消息', text)
         thread_ts = parse('$..thread_ts').find(data)
         # print(thread_ts)
         channel = parse('$..channel').find(data)[0].value
         bot_id = parse('$..bot_id').find(data)
+        # 判斷是否首個消息沒有ts
         if channel == 'C052ZB95CQP' and not thread_ts:
             ts = parse('$..ts').find(data)[0].value
             producer.publish(text, ts)
             # new_ts[ts] = text
             # ts_msg[ts] = []
             print('首条消息,新建thread_ts')
-        # 喊单处理的对话
+        # 喊单处理的ts
         elif thread_ts and thread_ts[0].value == '1684548507.820999' and bot_id[0].value == 'B0543J2N27J':
             tweet_id = re.search('@\d+', text).group().replace('@', '')
             producer.publish(tweet_id, text)
+            print('添加新消息到tweet_id')
+        # 將claude的消息發到對應的redis頻道
         elif channel == 'C052ZB95CQP' and bot_id[0].value == 'B0543J2N27J':
             producer.publish(thread_ts[0].value, text)
             # ts_msg[thread_ts[0].value].insert(0, text)
             print('添加新消息到thread_ts')
 
 
+# 處理ISHTARider作為app接收的消息
 def ISHTARider(request):
     data = request.data
     bot_id = parse('$..bot_id').find(data)
+    # 過濾自己的回復
     if not bot_id:
         text = parse('$..text').find(data)[0].value
         print('处理GPT项目消息', text)
@@ -186,9 +199,12 @@ def ISHTARider(request):
         hf_list[0] = hf
 
 
+# 處理alphaPlan發過來的item
 def process_item(key, tweet_text, item):
     print('处理' + item.__class__.__name__)
-    if not isinstance(key, list):
+    tweet_tag = None
+    # 根據不同的類型用不同的方法
+    if not isinstance(key, list) and not item['tweet_text'].startswith('RT @'):
         ISHTAR_slack.chat_postMessage(channel=CHANNEL_ID,
                                       text="<@U053SG7AC01> " + '只需回答内容中看好的或者推荐的代币(前面加$)以及推文id(前面加@),不要分析过程。要是没有就直接给推文id(前面加@)\n' + '@' +
                                            item['tweet_id'] + ':\n' + tweet_text,
@@ -218,12 +234,29 @@ def process_item(key, tweet_text, item):
         #         break
         #     except:
         #         continue
-    else:
+    elif isinstance(key, list):
+        # 有dc鏈接就發送
+        if item['tweet_alpha'] == 'discord':
+            # 把鏈接從key中拿掉,避免影響後面的launch判斷
+            for i in key:
+                if 'https://t.co/' in i:
+                    key.remove(i)
+                    msg = '[' + item['tweet_user'] + ']' + '(https://twitter\.com/' + item[
+                        'tweet_user'] + ')' + ' @[' + item[
+                              'tweet_alpha'] + ']' + '(https://twitter\.com/' + item[
+                              'tweet_alpha'] + ')  \|  [discord]' + '(https://twitter\.com/' + \
+                          item['tweet_user'] + '/status/' + item['tweet_id'] + ')\n' + item['tweet_time'].strftime(
+                        '%Y-%m-%d %H:%M:%S %Z') + '\n\n`' + item[
+                              'tweet_text'] + '`'
+                    msg = msg.replace('_', r'\_').replace('-', r'\-').replace('#', r'\#')
+                    ISHTARider_tg.send_message(-1001982993052, msg
+                                               , parse_mode="MarkdownV2", disable_web_page_preview=False)
+        # if key:
         msg = [{"role": "assistant",
-                "content": "代币时间:%Y-%m-%d %H:%M:%S %Z,代币token名称:$token,代币chain名称:#chain,代币contract地址:0x"},
+                "content": "时间:%Y-%m-%d %H:%M:%S %Z,代币token:$token,链chain:#chain,地址address:0x"},
                {"role": "user", "content": tweet_text + "\n根据今天的当前时间today's now:" + time.strftime(
-                   '%Y-%m-%d %H:%M:%S %Z %A') + '推测并按照之前回复的格式提取以上内容中代币token名称(格式为$token)/代币chain名称(格式为#chain)/代币contract地址(格式为0x)/' + '时间(格式为%Y-%m-%d %H:%M:%S %Z)/'.join(
-                   ['代币' + k for k in key] + [''])}]
+                   '%Y-%m-%d %H:%M:%S %Z %A') + '推测并按照之前回复的格式提取以上内容中代币token(格式为$token)/链chain(格式为#chain)/地址address(格式为0x)/' + '时间(格式为%Y-%m-%d %H:%M:%S %Z)/'.join(
+                   key + [''])}]
         print('gpt正在分析文本', key)
         hf = parse('$..hf').find(chat_gpt(msg))[0].value
         print('gpt返回结果', hf)
@@ -232,8 +265,9 @@ def process_item(key, tweet_text, item):
         alpha = re.findall(
             r'\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2} \w+|\$[A-Za-z0-9_]+|#[A-Za-z0-9_]+|0x[A-Za-z0-9_]+',
             hf, re.I)
-        tweet_tag = re.search(r'\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2} \w+', str(alpha), re.I)
+        tweet_tag = re.search(r'\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}', str(alpha), re.I)
         item['tweet_tag'] = ' \| '.join(alpha + key)
+    # 如果有需要的信息再發送到對應頻道
     if tweet_tag:
         if isinstance(item, CallerItem):
             tg_channel = -1001982993052
@@ -242,7 +276,10 @@ def process_item(key, tweet_text, item):
         else:
             tg_channel = -980470620
             api_url = 'https://alpha-admin.ipfszj.com/api/admin/alpha/launch/add'
-            item['alpha_datetime'] = parser.parse(tweet_tag.group().replace('中国标准时间', 'CST'))
+            try:
+                item['alpha_datetime'] = parser.parse(tweet_tag.group())
+            except:
+                item['alpha_datetime'] = item['tweet_time']
         msg = '[' + item['tweet_user'] + ']' + '(https://twitter\.com/' + item[
             'tweet_user'] + ')' + ' @[' + item[
                   'tweet_alpha'] + ']' + '(https://twitter\.com/' + item[
@@ -250,6 +287,7 @@ def process_item(key, tweet_text, item):
               item['tweet_user'] + '/status/' + item['tweet_id'] + ')\n' + item['alpha_datetime'].strftime(
             '%Y-%m-%d %H:%M:%S %Z') + '\n\n`' + item[
                   'tweet_text'] + '`'
+        # md解析的特殊字符替換
         msg = msg.replace('_', r'\_').replace('-', r'\-').replace('#', r'\#')
         ISHTARider_tg.send_message(tg_channel, msg
                                    , parse_mode="MarkdownV2", disable_web_page_preview=False)

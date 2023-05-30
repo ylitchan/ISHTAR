@@ -8,9 +8,9 @@ openai.api_key = os.getenv("openai")
 res = openai.ChatCompletion.create(
     model="gpt-3.5-turbo",
     # messages=[{"role": "assistant", "content":"sale:unknown,launch:unknown,listing:unknown,liquidity providing:unknown,airdrop:unknown"},{"role": "user","content": 'We will be having a community AMA to update everyone on:Apr 5, Wed, 9PM UTC+85' + '\n按照之前的格式提取以上内容中代币sale时间/代币launch时间/代币listing时间/代币liquidity providing时间/代币airdrop时间,若时间为现在则为now,若为其他情况则为unknown'}]
-    messages=[{"role": "assistant", "content": "时间:%Y-%m-%d %H:%M:%S %Z %A,$名称:$名称,#名称:#名称,0x地址:0x地址"},
+    messages=[{"role": "assistant", "content": "代币时间:%Y-%m-%d %H:%M:%S %Z,代币token名称:$token,代币chain名称:#chain,代币contract地址:0x"},
               {"role": "user",
-               "content": 'Public launch of $SECT on @CamelotDEX begins in three hours!' + "\n根据今天的当前时间today's now:" + time.strftime(
+               "content": 'Karrot is now live on Arbitrum.Audit: https://karrot.gg/audit Litepaper: https://karrot.gitbook.io/litepaper/ 0x60fa7ED79467f0537baBBe9BE593B6f04E04c8FA https://dexscreener.com/arbitrum/0xa5dfe126aa403f6fc8ce931843f44fdd9254af1c… The journey begins.' + "\n根据今天的当前时间today's now:" + time.strftime(
                    '%Y-%m-%d %H:%M:%S %Z %A') + '推测并按照之前回复的格式提取以上内容中$名称(格式为$+名称)/#名称(#+名称)/0x地址(0x+地址)/时间(格式为%Y-%m-%d %H:%M:%S %Z %A)'}]
 )
 # print(res)

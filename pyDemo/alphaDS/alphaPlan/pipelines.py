@@ -19,6 +19,7 @@ class TweetPipeline(object):
         super().__init__()
 
     def process_item(self, item, spider):
+        #判斷是否有圖片需要ocr
         if item['tweet_media']:
             res = requests.get(item['tweet_media'], stream=True)
             with open('alpha.png', 'wb') as file:
@@ -30,10 +31,12 @@ class TweetPipeline(object):
         else:
             media_text = ''
         tweet_text = item['tweet_text'] + '\n' + media_text
+        #將鏈接去除掉,再去發給ai
         tweet_text = re.sub(r'https?://[^\s]+', '', tweet_text)
+        #key過濾無用推文
         if isinstance(item, LaunchItem):
             key = list({i.lower() for i in re.findall(
-                r'\blaunch|sale\b|\blive|\blist|发射|\bcontract|\baddress|\bido|\bairdrop|\bmint|\bavailable',
+                r'\blaunch|sale\b|\blive|\blist|发射|\bcontract|\baddress|\bido|\bairdrop|\bmint|\bavailable|https://t.co/[A-Za-z0-9]+',
                 tweet_text, re.I)})
             # if key:
             #     print('处理带信息的发射推文')
