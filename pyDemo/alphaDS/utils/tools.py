@@ -1,5 +1,4 @@
 import re
-import requests
 import time
 import moviepy.editor as mpe
 import openai
@@ -56,6 +55,56 @@ if member:
     already = [i.id for i in member]
 else:
     already = []
+to_add = set()
+session = requests.session()
+
+
+def add_member(new_follow):
+    # 發送添加到列表的請求
+    if new_follow.id not in already:
+        token = session.post('https://alpha-admin.ipfszj.com/api/admin/base/open/login',
+                             json={'username': 'autoadd', 'password': '123456'}).json().get(
+            'data').get(
+            'token')
+        session.post(url='http://alpha-admin.ipfszj.com/api/admin/alpha/alpha/add',
+                     headers={'Authorization': token},
+                     json={'username': new_follow.username, 'bio': new_follow.description,
+                           'profileImageUrl': new_follow.profile_image_url,
+                           'createdAt': new_follow.created_at.strftime("%Y-%m-%d %H:%M:%S"),
+                           'followersCount': new_follow.public_metrics.get('followers_count', ''),
+                           'followingCount': new_follow.public_metrics.get('following_count', ''),
+                           'tweetCount': new_follow.public_metrics.get('tweet_count', ''),
+                           'listedCount': new_follow.public_metrics.get('listed_count', '')})
+        session.post('https://twitter.com/i/api/graphql/27lfFOrDygiZs382QLttKA/ListAddMember', json={
+            "variables": {
+                "listId": "1639838455760035840",
+                "userId": new_follow.id
+            },
+            "features": {
+                "rweb_lists_timeline_redesign_enabled": False,
+                "blue_business_profile_image_shape_enabled": True,
+                "responsive_web_graphql_exclude_directive_enabled": True,
+                "verified_phone_label_enabled": False,
+                "responsive_web_graphql_skip_user_profile_image_extensions_enabled": False,
+                "responsive_web_graphql_timeline_navigation_enabled": True
+            },
+            "queryId": "27lfFOrDygiZs382QLttKA"
+        }, headers={
+            'x-csrf-token': 'aa3383f5de290543f2d112d2159d2d69160f153d32f8648852183d816487a844e6023170c0b10bc4bade97f1d2226c0e2ea8239e071aedcdfd2296453fc75b6864b1736c00d28661f3a02de16091e056',
+            'authorization': 'Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs=1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA',
+            'cookie': 'des_opt_in=Y; g_state={"i_l":4,"i_p":1685978878538}; kdt=Q5t5PoYbZC7V30BrYCwKZzsSt3b612JIMJtmb0pQ; _gcl_au=1.1.2086328013.1685102825; _ga=GA1.2.1852869831.1685180820; _gid=GA1.2.579029748.1685180820; dnt=1; ads_prefs="HBESAAA="; auth_multi="1577862800952930305:864329745d15cc0b8407f8b403bb9c80e88ace79"; auth_token=cf79681343ca5b964ab4fa004c5d9fca2bdce7a9; guest_id=v1:168528420580517298; ct0=aa3383f5de290543f2d112d2159d2d69160f153d32f8648852183d816487a844e6023170c0b10bc4bade97f1d2226c0e2ea8239e071aedcdfd2296453fc75b6864b1736c00d28661f3a02de16091e056; lang=zh-cn; twid=u=1568898000654680064; guest_id_marketing=v1:168528420580517298; guest_id_ads=v1:168528420580517298; personalization_id="v1_M+fBTWkwbZBZWjHzsW7W+w=="',
+            'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36 Edg/112.0.1722.68'})
+        # 添加失败重新放入队列
+        if new_follow.id not in [i.id for i in client_tweet.get_list_members('1639838455760035840').data]:
+            print(time.strftime('%Y-%m-%d %H:%M:%S %Z %A'), '添加失败,重新放入队列')
+            to_add.add(new_follow.id)
+            # producer.publish('tg_add', user_id)
+            # time.sleep(3600)
+        else:
+            print(time.strftime('%Y-%m-%d %H:%M:%S %Z %A'), '添加成功,计入已添加')
+            already.append(new_follow.id)
+
+            # time.sleep(10)
 
 
 # ts_msg = {}
@@ -83,7 +132,7 @@ def get_ts(val):
 # 微信小程序openid的獲取
 def get_openid(data):
     code = parse('$..code').find(data)[0].value
-    res = requests.get(
+    res = session.get(
         'https://api.weixin.qq.com/sns/jscode2session?appid={}&secret={}&js_code={}&grant_type=authorization_code'.format(
             appid, secret, code))
     return parse('$..openid').find(res.json())[0].value
@@ -299,7 +348,7 @@ def process_item(key, tweet_text, item):
                      'alphaDatetime': item['alpha_datetime'].strftime('%Y-%m-%d %H:%M:%S'),
                      'userThumb': item['user_thumb'], 'alphaThumb': item['alpha_thumb'],
                      'tweetTime': item['tweet_time'].strftime('%Y-%m-%d %H:%M:%S')}
-        token = requests.post('https://alpha-admin.ipfszj.com/api/admin/base/open/login',
-                              json={'username': 'autoadd', 'password': '123456'}).json().get('data').get('token')
-        print('使用管理token', token, requests.post(url=api_url, headers={'Authorization': token}, json=item_json))
+        token = session.post('https://alpha-admin.ipfszj.com/api/admin/base/open/login',
+                             json={'username': 'autoadd', 'password': '123456'}).json().get('data').get('token')
+        print('使用管理token', token, session.post(url=api_url, headers={'Authorization': token}, json=item_json))
     print(item.__class__.__name__ + '处理完毕', item, sep='\n')

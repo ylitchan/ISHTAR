@@ -21,7 +21,7 @@ class TweetPipeline(object):
     def process_item(self, item, spider):
         #判斷是否有圖片需要ocr
         if item['tweet_media']:
-            res = requests.get(item['tweet_media'], stream=True)
+            res = session.get(item['tweet_media'], stream=True)
             with open('alpha.png', 'wb') as file:
                 # 每128个流遍历一次
                 for data in res.iter_content(128):

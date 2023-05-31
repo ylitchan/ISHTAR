@@ -9,6 +9,8 @@ proxy = {
     # "password": "password"
 }
 app = Client("my_account", os.getenv('api_id'), os.getenv('api_hash'), proxy=proxy)
+
+
 # a= [
 #             "@0xdantrades",
 #             "@0xGeeGee",
@@ -113,8 +115,7 @@ async def raw(client, message):
     # print(message)
     # tt的消息
     if user_id == '6129189645' and message.text:
-
-        #await app.send_message(6129189645, a.pop())
+        # await app.send_message(6129189645, a.pop())
         # print(message.chat.title, message.text, message.date.strftime("%Y-%m-%d %H:%M:%S"),
         #       message.id, name,
         #       chat_username, user_id, sep='\n')
@@ -128,24 +129,10 @@ async def raw(client, message):
                                                        user_fields=["profile_image_url", "public_metrics",
                                                                     'created_at',
                                                                     'description']).data
-                    print('新增關注', new_follow.id, new_follow.profile_image_url, new_follow.public_metrics,
-                          new_follow.created_at, new_follow.description)
-                    # 發送到redis的對應頻道,在addMember中接收並自動添加到列表
-                    if new_follow.id not in already:
-                        producer.publish('tg_add', new_follow.id)
-                        token = requests.post('https://alpha-admin.ipfszj.com/api/admin/base/open/login',
-                                              json={'username': 'autoadd', 'password': '123456'}).json().get(
-                            'data').get(
-                            'token')
-                        requests.post(url='http://alpha-admin.ipfszj.com/api/admin/alpha/alpha/add',
-                                      headers={'Authorization': token},
-                                      json={'username': new_follow.username, 'bio': new_follow.description,
-                                            'profileImageUrl': new_follow.profile_image_url,
-                                            'createdAt': new_follow.created_at.strftime("%Y-%m-%d %H:%M:%S"),
-                                            'followersCount': new_follow.public_metrics.get('followers_count', ''),
-                                            'followingCount': new_follow.public_metrics.get('following_count', ''),
-                                            'tweetCount': new_follow.public_metrics.get('tweet_count', ''),
-                                            'listedCount': new_follow.public_metrics.get('listed_count', '')})
+                    print(time.strftime('%Y-%m-%d %H:%M:%S %Z %A'), '新增關注',
+                          {new_follow.id, new_follow.profile_image_url, new_follow.public_metrics,
+                           new_follow.created_at, new_follow.description})
+                    add_member(new_follow)
                     break
                 except:
                     continue
@@ -155,16 +142,15 @@ async def raw(client, message):
             #              chat_username, user_id])
     # tg邀请
     elif message.chat.title == 'TG invite' and message.text and message.text.startswith('https://t.me/'):
-        print(message.text)
         try:
-            print(bool(await app.join_chat(message.text)))
+            print(time.strftime('%Y-%m-%d %H:%M:%S %Z %A'), bool(await app.join_chat(message.text)))
         except:
-            print(bool(await app.join_chat(message.text.split('/')[-1])))
+            print(time.strftime('%Y-%m-%d %H:%M:%S %Z %A'), bool(await app.join_chat(message.text.split('/')[-1])))
     # 发射信息
     elif is_admin and message.text and user_id != 5995779313:
-        print(message.chat.title, message.text, message.date.strftime("%Y-%m-%d %H:%M:%S"),
-              message.id, name,
-              chat_username, user_id, is_admin, sep='\n')
+        print(time.strftime('%Y-%m-%d %H:%M:%S %Z %A'), '管理员消息',
+              {message.chat.title, message.text, message.date.strftime("%Y-%m-%d %H:%M:%S"), message.id, name,
+               chat_username, user_id, is_admin})
         # await app.send_message(-1001982993052, message.chat.title + '\n' + message.date.strftime(
         #     "%Y-%m-%d %H:%M:%S") + '\n' + message.text)
 
