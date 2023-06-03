@@ -1,4 +1,5 @@
 from pyrogram import Client
+from threading import Thread
 from tools import *
 
 proxy = {
@@ -115,6 +116,7 @@ async def raw(client, message):
     # print(message)
     # tt的消息
     if user_id == '6129189645' and message.text:
+        # print(time.strftime('%Y-%m-%d %H:%M:%S %Z %A'), '新增關注', message.text)
         # await app.send_message(6129189645, a.pop())
         # print(message.chat.title, message.text, message.date.strftime("%Y-%m-%d %H:%M:%S"),
         #       message.id, name,
@@ -123,19 +125,19 @@ async def raw(client, message):
         # 提取新增關注的username
         new_follow = re.findall(r'@[A-Za-z0-9_]+', message.text)
         if new_follow and len(new_follow) > 1:
-            while True:
-                try:
-                    new_follow = client_tweet.get_user(username=new_follow[1][1:],
-                                                       user_fields=["profile_image_url", "public_metrics",
-                                                                    'created_at',
-                                                                    'description']).data
-                    print(time.strftime('%Y-%m-%d %H:%M:%S %Z %A'), '新增關注',
-                          {new_follow.id, new_follow.profile_image_url, new_follow.public_metrics,
-                           new_follow.created_at, new_follow.description})
-                    add_member(new_follow)
-                    break
-                except:
-                    continue
+            # while True:
+            #     try:
+            new_follow = client_tweet.get_user(username=new_follow[1][1:],
+                                               user_fields=["profile_image_url", "public_metrics",
+                                                            'created_at',
+                                                            'description']).data
+            print(time.strftime('%Y-%m-%d %H:%M:%S %Z %A'), '新增關注', )
+            # [new_follow.id, new_follow.profile_image_url, new_follow.public_metrics, new_follow.created_at,
+            #  new_follow.description])
+            q_add.put(new_follow)
+            #     break
+            # except:
+            #     continue
             # q_alpha.put('tg_alpha',
             #             [message.chat.title, message.text, message.date.strftime("%Y-%m-%d %H:%M:%S %Z %A"), message.id,
             #              name,
@@ -147,13 +149,15 @@ async def raw(client, message):
         except:
             print(time.strftime('%Y-%m-%d %H:%M:%S %Z %A'), bool(await app.join_chat(message.text.split('/')[-1])))
     # 发射信息
-    elif is_admin and message.text and user_id != 5995779313:
+    elif is_admin and message.text and user_id != '5995779313':
         print(time.strftime('%Y-%m-%d %H:%M:%S %Z %A'), '管理员消息',
-              {message.chat.title, message.text, message.date.strftime("%Y-%m-%d %H:%M:%S"), message.id, name,
-               chat_username, user_id, is_admin})
+              [message.chat.title, message.text, message.date.strftime("%Y-%m-%d %H:%M:%S"), message.id, name,
+               chat_username, user_id, is_admin])
         # await app.send_message(-1001982993052, message.chat.title + '\n' + message.date.strftime(
         #     "%Y-%m-%d %H:%M:%S") + '\n' + message.text)
 
 
 if __name__ == '__main__':
+    q_add = queue.Queue()
+    Thread(target=add_member, args=[q_add], daemon=True).start()
     app.run()

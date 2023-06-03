@@ -75,10 +75,12 @@ class AlphaSpider(scrapy.Spider):
             tweet_id = re.findall(r'\d+', tweet_id)[-1]
             tweet_text = parse('$..full_text').find(only)
             # 佈隆過濾器去掉之前爬過的推文
-            if '1644920028696031235' not in response.url:
-                item = LaunchItem()
-            else:
+            if '1644920028696031235' in response.url and len(tweet_text) == 1:
                 item = CallerItem()
+                item['tweet_text'] = tweet_text[-1].value
+            elif '1644920028696031235' not in response.url:
+                item = LaunchItem()
+                item['tweet_text'] = '\n'.join([i.value for i in tweet_text])
             if not self.sbfilter.add(tweet_id + item.__class__.__name__) and len(tweet_text) == 1:
                 item['tweet_id'] = tweet_id
                 # all_user=re.findall(r'\bscreen_name.*?,', only)[0:2]
@@ -87,7 +89,7 @@ class AlphaSpider(scrapy.Spider):
                 item['tweet_user'] = all_user[0].value
                 item['tweet_alpha'] = all_user[-1].value
                 item['tweet_time'] = parser.parse(parse('$..created_at').find(only)[-1].value)
-                item['tweet_text'] = tweet_text[-1].value
+                # item['tweet_text'] = tweet_text[-1].value
                 # item['tweet_text'] = '\n'.join([i.value for i in parse('$..full_text').find(only)])
                 all_thumb = parse('$..profile_image_url_https').find(only)
                 item['user_thumb'] = all_thumb[0].value
