@@ -1,5 +1,5 @@
 import os
 import re
-
-import tweepy
-print(re.search(r'\$\w+', '+25% up on $MAN from yesterday...', re.I))
+a={2}
+a.update([2,6])
+print(a)

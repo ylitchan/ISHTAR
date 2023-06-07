@@ -36,7 +36,7 @@ class TweetPipeline(object):
         #key過濾無用推文
         if isinstance(item, LaunchItem):
             key = list({i.lower() for i in re.findall(
-                r'\blaunch|sale\b|\blive|\blist|发射|\bcontract|\baddress|\bido|\bairdrop|\bmint|\bavailable|https://t.co/[A-Za-z0-9]+',
+                r'\blaunch|sale\b|\blive|\blist|发射|\bcontract|\baddress|\bido|\bairdrop|\bmint|\bca\b|\bavailable|\bgiv.*?away\b|https://t.co/[A-Za-z0-9]+',
                 tweet_text, re.I)})
             # if key:
             #     print('处理带信息的发射推文')

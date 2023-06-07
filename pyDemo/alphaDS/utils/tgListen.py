@@ -92,30 +92,32 @@ app = Client("my_account", os.getenv('api_id'), os.getenv('api_hash'), proxy=pro
 async def raw(client, message):
     is_admin = False
     name = ''
+    chat_id = ''
+    chat_username = 'UST_DAO'
+    user_id = '-1623440846'
     if hasattr(message, 'from_user') and message.from_user:
         user_id = str(message.from_user.id)
         for i in [message.from_user.first_name, message.from_user.last_name]:
             if i:
                 name += i
-    else:
-        user_id = '-1623440846'
     if hasattr(message, 'chat'):
         try:
             is_admin = message.chat.permissions.can_pin_messages
             chat_username = message.chat.username
+            chat_id = str(message.chat.id)
         except:
-            chat_username = 'UST_DAO'
+            pass
     elif hasattr(message, 'sender_chat'):
         try:
             is_admin = message.sender_chat.permissions.can_pin_messages
             chat_username = message.sender_chat.username
+            chat_id = str(message.chat.id)
         except:
-            chat_username = 'UST_DAO'
-    else:
-        chat_username = 'UST_DAO'
-    # print(message)
+            pass
+    # print(chat_id,message.text)
     # tt的消息
     if user_id == '6129189645' and message.text:
+        # print(message)
         # print(time.strftime('%Y-%m-%d %H:%M:%S %Z %A'), '新增關注', message.text)
         # await app.send_message(6129189645, a.pop())
         # print(message.chat.title, message.text, message.date.strftime("%Y-%m-%d %H:%M:%S"),
@@ -123,18 +125,21 @@ async def raw(client, message):
         #       chat_username, user_id, sep='\n')
         # if message.text:
         # 提取新增關注的username
-        new_follow = re.findall(r'@[A-Za-z0-9_]+', message.text)
-        if new_follow and len(new_follow) > 1:
+        new_follow = [i[1:] for i in re.findall(r'@[A-Za-z0-9_]+', message.text)]
+        total = len(new_follow)
+        if total > 1:
             # while True:
             #     try:
-            new_follow = client_tweet.get_user(username=new_follow[1][1:],
-                                               user_fields=["profile_image_url", "public_metrics",
-                                                            'created_at',
-                                                            'description']).data
+            for i in range(total // 100 + 1):
+                new_follow = client_tweet.get_users(usernames=new_follow[i * 100:(i + 1) * 100],
+                                                    user_fields=["profile_image_url", "public_metrics",
+                                                                 'created_at',
+                                                                 'description']).data
+                for m in new_follow:
+                    q_add.put(m)
             print(time.strftime('%Y-%m-%d %H:%M:%S %Z %A'), '新增關注', )
             # [new_follow.id, new_follow.profile_image_url, new_follow.public_metrics, new_follow.created_at,
             #  new_follow.description])
-            q_add.put(new_follow)
             #     break
             # except:
             #     continue

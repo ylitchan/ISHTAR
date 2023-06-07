@@ -5,9 +5,9 @@ import random
 import time
 
 import requests
-from airtest.core.api import *
-
-auto_setup(__file__)
+# from airtest.core.api import *
+#
+# auto_setup(__file__)
 
 
 # from poco.drivers.android.uiautomation import AndroidUiautomationPoco
@@ -183,4 +183,4 @@ async def on_message(message):
 # p = Process(target=vrun)
 # p.daemon=True
 # p.start()
-bot.run('MTAxNzAzNjA0MjU4NDQ2OTUyNg.GOg6-t.nks4_KfMmhgl-XWUN7BGdsMOag6ocACfN9NzBo')
+bot.run('MTAwMTEzNjE0Mzc3MDg2NTc0NA.Gg7PKt.kM0yiJAfzzvuIcgwy5JMr0ZRZgGB64gqbTrP0w')

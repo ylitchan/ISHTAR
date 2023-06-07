@@ -81,7 +81,9 @@ class AlphaSpider(scrapy.Spider):
             elif '1644920028696031235' not in response.url:
                 item = LaunchItem()
                 item['tweet_text'] = '\n'.join([i.value for i in tweet_text])
-            if not self.sbfilter.add(tweet_id + item.__class__.__name__) and len(tweet_text) == 1:
+            else:
+                item = None
+            if not self.sbfilter.add(tweet_id + item.__class__.__name__) and item:
                 item['tweet_id'] = tweet_id
                 # all_user=re.findall(r'\bscreen_name.*?,', only)[0:2]
                 all_user = parse('$..screen_name').find(only)[0:2]

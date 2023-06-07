@@ -26,4 +26,5 @@ urlpatterns = [
     path('aichat', views.aichat),
     path('ishtar', views.ishtar),
     path('ishtarider', views.ishtarider),
+    path('getmsg', views.getmsg),
 ]

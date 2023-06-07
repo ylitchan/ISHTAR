@@ -5,9 +5,9 @@ import random
 import time
 
 import requests
-from airtest.core.api import *
+# from airtest.core.api import *
 
-auto_setup(__file__)
+# auto_setup(__file__)
 
 
 # from poco.drivers.android.uiautomation import AndroidUiautomationPoco
@@ -20,6 +20,10 @@ import datetime
 import aiohttp
 import requests
 import sys
+
+
+
+
 # sys.path.append('D:\PycharmProjects\demos\itchatDemo\itchatuos.py')
 #聊天api
 async def chatGPT(gjc):
@@ -121,7 +125,11 @@ async def chatGPT(gjc):
 # GETS THE CLIENT OBJECT FROM DISCORD.PY. CLIENT IS SYNONYMOUS WITH BOT.
 intents = discord.Intents.all()
 bot = discord.Client(intents=intents, proxy='http://127.0.0.1:10810')
-
+@bot.event
+async def on_ready():
+    while True:
+        await bot.get_channel(1085995494796447795).send()
+        await asyncio.sleep(14400)
 
 # EVENT LISTENER FOR WHEN THE BOT HAS SWITCHED FROM OFFLINE TO ONLINE.
 # @bot.event
@@ -201,4 +209,4 @@ async def on_message(message):
 # p = Process(target=vrun)
 # p.daemon=True
 # p.start()
-bot.run('OTk5NjM1MDAzMDEwOTc3Nzky.GaYWMH.uLOYCY7XwT_za98zS_pn0vA-SFwUHATeRJqVc0')
+bot.run('MTAwMTEyNDg1Nzg4MDI2NDcyNA.GBOmUj.18XSjoKckfI9n4HNlZqBQXRNIUweeulpglOIwA')

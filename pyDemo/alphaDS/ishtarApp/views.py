@@ -16,41 +16,53 @@ def index(request):
 @api_view(['POST'])
 def signin(request):
     data = request.data
-    open_id = get_openid(data)
+    user_phone = parse('$..user_phone').find(data)[0].value
+    password = parse('$..password').find(data)[0].value
     try:
-        user = UserInfo.objects.get(open_id=open_id)
+        user = UserInfo.objects.get(user_phone=user_phone, password=password)
         print('当前用户', user)
-        return Response({'code': 200, 'data': {'open_id': open_id, 'user_history': json.loads(user.user_history)},
-                         'msg': '登录成功'})
+        return Response({'code': 200, 'data': {'user_phone': user_phone}, 'msg': '登录成功'})
     except:
-        return Response({'code': 401, 'data': {'open_id': open_id}, 'msg': '尚未注册'})
+        return Response({'code': 401, 'data': {'user_phone': user_phone}, 'msg': '账号密码不正确'})
+
+
+@api_view(['POST'])
+def getmsg(request):
+    data = request.data
+    user_phone = parse('$..user_phone').find(data)[0].value
+    user = UserInfo.objects.get(user_phone=user_phone)
+    return Response({'code': 200, 'data': {'user_phone': user_phone, 'user_history': json.loads(user.user_history)},
+                     'msg': '获取历史消息'})
 
 
 # 微信小程序注册api
 @api_view(['POST'])
 def register(request):
     data = request.data
-    open_id = parse('$..open_id').find(data)[0].value
+    # open_id = parse('$..open_id').find(data)[0].value
     user_phone = parse('$..user_phone').find(data)[0].value
+    password = parse('$..password').find(data)[0].value
     try:
         if UserInfo.objects.filter(user_phone=user_phone):
-            return Response({'code': 400, 'data': {'open_id': open_id}, 'msg': '手机号已被注册,请换个手机号'})
-        UserInfo.objects.create(open_id=open_id, user_phone=user_phone, user_balance=0, user_history=json.dumps([{}]))
-        return Response({'code': 200, 'data': {'open_id': open_id}, 'msg': '注册成功'})
+            return Response({'code': 400, 'data': {'open_id': user_phone}, 'msg': '手机号已被注册,请换个手机号'})
+        UserInfo.objects.create(open_id=user_phone, user_phone=user_phone, password=password, user_balance=0,
+                                user_history=json.dumps([{}]))
+        return Response({'code': 200, 'data': {'open_id': user_phone}, 'msg': '注册成功'})
     except:
-        return Response({'code': 400, 'data': {'open_id': open_id}, 'msg': '注册失败'})
+        return Response({'code': 400, 'data': {'open_id': user_phone}, 'msg': '注册失败'})
 
 
 # 微信小程序消息api
 @api_view(['POST'])
 def aichat(request):
+    a=time.time()
     data = request.data
     print('客户端消息', data)
-    open_id = parse('$..open_id').find(data)[0].value
+    user_phone = parse('$..user_phone').find(data)[0].value
     # 根据open_id查询数据库余额
-    user = UserInfo.objects.get(open_id=open_id)
+    user = UserInfo.objects.get(user_phone=user_phone)
     if not user.user_balance:
-        return Response({'code': 400, 'data': {'open_id': open_id}, 'msg': '余额不足,请联系客服'})
+        return Response({'code': 400, 'data': {'user_phone': user_phone}, 'msg': '余额不足,请联系客服'})
     vx_msg = parse('$..vx_msg').find(data)[0].value
     user_history = json.loads(user.user_history)
     # 1代表gpt
@@ -82,6 +94,8 @@ def aichat(request):
         user.user_balance -= 1
         print('扣款成功')
         user.save()
+    b=time.time()
+    print(b-a,'ttttttttttttttt')
     return Response(hf)
     # while True:
     #     try:
