@@ -1,5 +1,4 @@
 from pyrogram import Client
-from threading import Thread
 from tools import *
 
 proxy = {
@@ -125,19 +124,19 @@ async def raw(client, message):
         #       chat_username, user_id, sep='\n')
         # if message.text:
         # 提取新增關注的username
-        new_follow = [i[1:] for i in re.findall(r'@[A-Za-z0-9_]+', message.text)]
+        new_follow = re.findall(r'@[A-Za-z0-9_]+', message.text)
         total = len(new_follow)
         if total > 1:
             # while True:
             #     try:
-            for i in range(total // 100 + 1):
-                new_follow = client_tweet.get_users(usernames=new_follow[i * 100:(i + 1) * 100],
-                                                    user_fields=["profile_image_url", "public_metrics",
-                                                                 'created_at',
-                                                                 'description']).data
-                for m in new_follow:
-                    q_add.put(m)
-            print(time.strftime('%Y-%m-%d %H:%M:%S %Z %A'), '新增關注', )
+            # for i in range(total // 100 + 1):
+            # new_follow = client_tweet.get_user(username=new_follow[1][1:],
+            #                                    user_fields=["profile_image_url", "public_metrics",
+            #                                                 'created_at',
+            #                                                 'description']).data
+            # for m in new_follow:
+            q_add.put(new_follow[1][1:])
+            print(time.strftime('%Y-%m-%d %H:%M:%S %Z %A'), '新增關注', new_follow[1])
             # [new_follow.id, new_follow.profile_image_url, new_follow.public_metrics, new_follow.created_at,
             #  new_follow.description])
             #     break

@@ -1,6 +1,8 @@
 import datetime
 import schedule
 from utils.tools import *
+
+
 #
 # alpha = LaunchInfo.objects.filter(tweet_tag__icontains=time.strftime('%Y-%m-%d')).values('tweet_alpha',
 #                                                                                          'tweet_tag',
@@ -40,7 +42,7 @@ def do_task():
 
 # 设置每天的 8 点执行任务
 # do_task()
-schedule.every().day.at("08:00").do(do_task)
+schedule.every().day.at("08:30").do(do_task)
 
 while True:
     schedule.run_pending()

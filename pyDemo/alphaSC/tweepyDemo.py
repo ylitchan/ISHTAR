@@ -5,6 +5,7 @@ import tweepy
 import json
 import pymongo
 import asyncio
+
 # from discord_webhook import DiscordWebhook, DiscordEmbed
 ISHTARider_tg = telebot.TeleBot(os.environ.get("ISHTARider_tg"))
 # bearer_token = "AAAAAAAAAAAAAAAAAAAAAPEGjQEAAAAAREb6WuXu7rNwm8ChnkpJoSJmSkw%3DXgtd6IlBg9SyrAcVhTOVucCrYL4OGfSjjCmMbfM8mFTi3CqUcL"
@@ -16,19 +17,19 @@ mgdb = mgclient['alpha']
 # bot = dcDemo.Client(intents=intents, proxy='http://127.0.0.1:10810')
 with open(r'D:\allProjects\pyDemo\alphaPlan\alpha.json', 'r+') as alpha:
     alpha = json.load(alpha)
-    print('====================',len(alpha))
+    print('====================', len(alpha))
 
 
 # 定义获取following的函数
 async def get_following(user_id):
     alert = []  # 新增的following放入提醒
     collection = mgdb[alpha[user_id]]  # 该alpha的关注数据集
-    fields=[]
+    fields = []
     print('这是collection', collection)
     res = client.get_user(id=user_id, user_fields=["profile_image_url"])
     tx = res.data.profile_image_url  # 获取头像
     response = client.get_users_following(
-        user_id, user_fields=["profile_image_url","public_metrics",'created_at','description'], max_results=1000
+        user_id, user_fields=["profile_image_url", "public_metrics", 'created_at', 'description'], max_results=1000
     )
     if response.data and collection.estimated_document_count() != 0:  # 避免无关注和新degen
         for user in response.data:
@@ -39,13 +40,16 @@ async def get_following(user_id):
                 if data:  # 更新数据库中的数据
                     data['number'] += 1
                     mgdb['count'].update_one({'name': user.username}, {'$set': data})
-                    if data['number'] >= 0.15*len(alpha):
-                        fields.append({'name':user.username+'のdetail','value':'https://twitter.com/' + user.username+'\n'+'\n'.join(str(user.public_metrics)[1:-1].split(','))+'\n简介:\n'+user.description,'inline': False})
+                    if data['number'] >= 0.15 * len(alpha):
+                        fields.append({'name': user.username + 'のdetail',
+                                       'value': 'https://twitter.com/' + user.username + '\n' + '\n'.join(
+                                           str(user.public_metrics)[1:-1].split(',')) + '\n简介:\n' + user.description,
+                                       'inline': False})
                         alert.append(user.username + '目前degen关注数: ' + str(data['number']) + '/' + str(
-                            len(alpha))+'\n创建于' +str(user.created_at))
+                            len(alpha)) + '\n创建于' + str(user.created_at))
                 else:  # 把新数据插入数据库
                     mgdb['count'].insert_one({'name': user.username, 'number': 1})
-    elif response.data and collection.estimated_document_count() == 0:#对新degen初始化数据
+    elif response.data and collection.estimated_document_count() == 0:  # 对新degen初始化数据
         for user in response.data:
             print(user.username, user.name, user.profile_image_url)
             collection.insert_one({'name': user.username})
