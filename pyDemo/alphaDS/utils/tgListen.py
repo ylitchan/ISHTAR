@@ -135,8 +135,9 @@ async def raw(client, message):
             #                                                 'created_at',
             #                                                 'description']).data
             # for m in new_follow:
-            q_add.put(new_follow[1][1:])
-            print(time.strftime('%Y-%m-%d %H:%M:%S %Z %A'), '新增關注', new_follow[1])
+            producer.publish('q_add', new_follow[1][1:])
+            # q_add.put(new_follow[1][1:])
+            print(time.strftime('%Y-%m-%d %H:%M:%S %Z %A'), '新增關注', new_follow[1][1:])
             # [new_follow.id, new_follow.profile_image_url, new_follow.public_metrics, new_follow.created_at,
             #  new_follow.description])
             #     break
@@ -162,6 +163,6 @@ async def raw(client, message):
 
 
 if __name__ == '__main__':
-    q_add = queue.Queue()
-    Thread(target=add_member, args=[q_add], daemon=True).start()
+    # q_add = queue.Queue()
+    Thread(target=add_member, args=[], daemon=True).start()
     app.run()
