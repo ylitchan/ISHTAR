@@ -80,6 +80,8 @@ account_list = [('dao_ust', '1639838455760035840', {
 
 
 def add_member():
+    with open('sbfilterMember', 'rb') as f:
+        sbfilter = ScalableBloomFilter(mode=ScalableBloomFilter.SMALL_SET_GROWTH).fromfile(f)
     consumer = producer.pubsub()
     consumer.subscribe('q_add')
     # 初始化布隆过滤器
@@ -129,7 +131,7 @@ def add_member():
             # Thread(target=add_member, args=[q_add], daemon=False).start()
             # break
             # 發送添加到列表的請求
-        if new_follow_id not in list_members:
+        if not sbfilter.add(new_follow_id):
             index += 1
             if index == 2:
                 index = 0
@@ -182,7 +184,6 @@ def add_member():
                                    'listName': parse('$..name').find(added)[0].value,
                                    'listAccount': parse('$..screen_name').find(added)[0].value,
                                    'listedCount': parse('$..listed_count').find(new_user)[0].value})
-                list_members.append(new_follow_id)
                 print(time.strftime('%Y-%m-%d %H:%M:%S %Z %A'), '添加成功', account_list[index][0], new_follow)
                 # if added.data.get('is_member'):
                 #     print(time.strftime('%Y-%m-%d %H:%M:%S %Z %A'), '添加成功', new_user.username)
@@ -191,20 +192,19 @@ def add_member():
                 #     print(time.strftime('%Y-%m-%d %H:%M:%S %Z %A'), '添加失败', new_user.username)
                 #     q_add.put(new_follow)
             except:
-                producer.publish('q_add', new_follow)
                 time.sleep(300)
                 print(time.strftime('%Y-%m-%d %H:%M:%S %Z %A'), '添加错误', account_list[index][0], new_follow)
                 # 在15分钟内添加4次就暂停到满15分钟
             if number == 4 and delta_time < 900:
-                with open('listMembers.json', 'w') as f:
-                    json.dump(list_members, f)
+                with open('sbfilterMember', 'wb') as f:
+                    sbfilter.tofile(f)
                 time.sleep(930 - delta_time)
                 start_time = time.time()
                 number = 0
                 print('超过频率,等待')
             elif delta_time >= 900:
-                with open('listMembers.json', 'w') as f:
-                    json.dump(list_members, f)
+                with open('sbfilterMember', 'wb') as f:
+                    sbfilter.tofile(f)
                 time.sleep(930 - delta_time)
                 start_time = time.time()
                 number = 1
