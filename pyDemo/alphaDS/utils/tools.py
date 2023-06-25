@@ -205,7 +205,6 @@ def add_member():
             elif delta_time >= 900:
                 with open('sbfilterMember', 'wb') as f:
                     sbfilter.tofile(f)
-                time.sleep(930 - delta_time)
                 start_time = time.time()
                 number = 1
                 print('重置为1')
