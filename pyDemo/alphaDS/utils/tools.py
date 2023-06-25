@@ -133,7 +133,7 @@ def add_member():
             # 發送添加到列表的請求
         if not sbfilter.add(new_follow_id):
             index += 1
-            if index == 2:
+            if index == 3:
                 index = 0
             # print('添加关注', new_follow.username)
             delta_time = time.time() - start_time
