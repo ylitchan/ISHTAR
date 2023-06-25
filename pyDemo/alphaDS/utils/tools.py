@@ -65,10 +65,18 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 hf_list = ['无限制AI']
 session = requests.session()
-account_list = [('dao_ust', "1639838455760035840", {
+account_list = [('dao_ust', '1639838455760035840', {
     'Authorization': 'Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA',
     'Cookie': 'des_opt_in=Y; _gcl_au=1.1.2086328013.1685102825; g_state={"i_l":4,"i_p":1688478693716}; mbox=PC#dcbf0b6907a44fc787c69c2e7fbb6db1.38_0#1749817959|session#dfcb512ba2904d55935a82566010ca90#1686575019; _ga_34PHSZMC42=GS1.1.1686573165.8.1.1686573197.0.0.0; _ga=GA1.2.1852869831.1685180820; kdt=YY5epcm5ePgzHpX3oXabVshhh27g18lEHMuYH7v4; _gid=GA1.2.1842052750.1687350267; dnt=1; auth_multi="1577862800952930305:1bedb7ef5487e0ca4faa75e233f94abf2b7e59eb|1573326306661793792:b8da11bc85168214fe4b0b6957cc318478a3a6e2"; auth_token=5503c671b8069c470766fdea2d66ba5fb9a86538; guest_id=v1%3A168735332699056847; ct0=e19897d7753735caf08114c7dddf607957a28df444b776c21a2b74b16100bd05790d7cdf5b6c32478aa17ed0eb87520b121e6c39235f656d71973706e3c270b64f7c888caee8ebd78b5d003f9ab97ae8; lang=zh-cn; twid=u%3D1568898000654680064; guest_id_marketing=v1%3A168735332699056847; guest_id_ads=v1%3A168735332699056847; personalization_id="v1_quUYBDnAEMLTiqebrNCQJQ=="',
-    'X-Csrf-Token': 'e19897d7753735caf08114c7dddf607957a28df444b776c21a2b74b16100bd05790d7cdf5b6c32478aa17ed0eb87520b121e6c39235f656d71973706e3c270b64f7c888caee8ebd78b5d003f9ab97ae8'})]
+    'X-Csrf-Token': 'e19897d7753735caf08114c7dddf607957a28df444b776c21a2b74b16100bd05790d7cdf5b6c32478aa17ed0eb87520b121e6c39235f656d71973706e3c270b64f7c888caee8ebd78b5d003f9ab97ae8'}),
+                ('dao_ust2', '1667054883219083264', {
+                    'Authorization': 'Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA',
+                    'Cookie': 'des_opt_in=Y; _gcl_au=1.1.2086328013.1685102825; g_state={"i_l":4,"i_p":1688478693716}; mbox=PC#dcbf0b6907a44fc787c69c2e7fbb6db1.38_0#1749817959|session#dfcb512ba2904d55935a82566010ca90#1686575019; _ga_34PHSZMC42=GS1.1.1686573165.8.1.1686573197.0.0.0; _ga=GA1.2.1852869831.1685180820; _gid=GA1.2.294164188.1687613031; gt=1672929356564557831; kdt=NM3A3BOWMx37GmPm0Z4Lhye1iVVcztVSlceYK2X6; lang=zh-cn; dnt=1; auth_multi="1121014957422907392:fb739a04e9f024dfa6860b837b9c437aaa93f0fa"; auth_token=450444b721eb21cfa581e4195ac7384545dd89cc; guest_id=v1%3A168769252221011498; ct0=1a3a1a3f3f3497d56d958b4363e1514dbfd5f90dd3cec4455a20d0223c656bfd9786b307c96508e2f85501c6c137ae9dab5cddf5f6b3655c6d3b11f72d39041376df5f2b01920c2b148c3389e8fc1bca; twid=u%3D1666748651618865153; guest_id_marketing=v1%3A168769252221011498; guest_id_ads=v1%3A168769252221011498; personalization_id="v1_BLq9lVhxG6JsQL5ss6yM5g=="',
+                    'X-Csrf-Token': '1a3a1a3f3f3497d56d958b4363e1514dbfd5f90dd3cec4455a20d0223c656bfd9786b307c96508e2f85501c6c137ae9dab5cddf5f6b3655c6d3b11f72d39041376df5f2b01920c2b148c3389e8fc1bca'}),
+                ('dao_ust3', '1646838020363153408', {
+                    'Authorization': 'Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA',
+                    'Cookie': 'des_opt_in=Y; _gcl_au=1.1.2086328013.1685102825; g_state={"i_l":4,"i_p":1688478693716}; mbox=PC#dcbf0b6907a44fc787c69c2e7fbb6db1.38_0#1749817959|session#dfcb512ba2904d55935a82566010ca90#1686575019; _ga_34PHSZMC42=GS1.1.1686573165.8.1.1686573197.0.0.0; _ga=GA1.2.1852869831.1685180820; kdt=YY5epcm5ePgzHpX3oXabVshhh27g18lEHMuYH7v4; _gid=GA1.2.1842052750.1687350267; dnt=1; lang=zh-cn; auth_multi="1568898000654680064:5503c671b8069c470766fdea2d66ba5fb9a86538|1577862800952930305:1bedb7ef5487e0ca4faa75e233f94abf2b7e59eb|1573326306661793792:b8da11bc85168214fe4b0b6957cc318478a3a6e2"; auth_token=bc4e0b0e13059d5f73217d2e512963ab84d2b03c; guest_id=v1%3A168735792361821059; ct0=5f9cd12434705cc3270ebe333b8b3cfa6f4df1fbd15306751b4c853d4cfb650082da2b70ebecb3d60552549c151c4fa4d17a8ef20969692024ec5aeabc572bfc2e7a2634167d48c2347572bf87a20c54; twid=u%3D1121014957422907392; guest_id_marketing=v1%3A168735792361821059; guest_id_ads=v1%3A168735792361821059; personalization_id="v1_dhsI3gVYY2Bo9x07dcPgzg=="',
+                    'X-Csrf-Token': '5f9cd12434705cc3270ebe333b8b3cfa6f4df1fbd15306751b4c853d4cfb650082da2b70ebecb3d60552549c151c4fa4d17a8ef20969692024ec5aeabc572bfc2e7a2634167d48c2347572bf87a20c54'})]
 
 
 def add_member():
@@ -108,22 +116,23 @@ def add_member():
             #                                       user_fields=["profile_image_url", "public_metrics",
             #                                                    'created_at',
             #                                                    'description']).data
+
             new_user = session.get(
                 'https://twitter.com/i/api/graphql/qRednkZG-rn1P6b48NINmQ/UserByScreenName?variables=%7B%22screen_name%22%3A%22{}%22%2C%22withSafetyModeUserFields%22%3Atrue%7D&features=%7B%22hidden_profile_likes_enabled%22%3Afalse%2C%22responsive_web_graphql_exclude_directive_enabled%22%3Atrue%2C%22verified_phone_label_enabled%22%3Afalse%2C%22subscriptions_verification_info_verified_since_enabled%22%3Atrue%2C%22highlights_tweets_tab_ui_enabled%22%3Atrue%2C%22creator_subscriptions_tweet_preview_api_enabled%22%3Atrue%2C%22responsive_web_graphql_skip_user_profile_image_extensions_enabled%22%3Afalse%2C%22responsive_web_graphql_timeline_navigation_enabled%22%3Atrue%7D'.format(
                     new_follow), headers=account_list[index][2]).json()
             new_follow_id = int(parse('$..rest_id').find(new_user)[0].value)
-            index += 1
-            if index == 3:
-                index = 0
         except:
             producer.publish('q_add', new_follow)
             time.sleep(300)
-            print(time.strftime('%Y-%m-%d %H:%M:%S %Z %A'), '获取错误', new_follow)
+            print(time.strftime('%Y-%m-%d %H:%M:%S %Z %A'), '获取错误', account_list[index][0], new_follow)
             continue
             # Thread(target=add_member, args=[q_add], daemon=False).start()
             # break
             # 發送添加到列表的請求
         if new_follow_id not in list_members:
+            index += 1
+            if index == 2:
+                index = 0
             # print('添加关注', new_follow.username)
             delta_time = time.time() - start_time
             try:
@@ -173,33 +182,40 @@ def add_member():
                                    'listName': parse('$..name').find(added)[0].value,
                                    'listAccount': parse('$..screen_name').find(added)[0].value,
                                    'listedCount': parse('$..listed_count').find(new_user)[0].value})
+                list_members.append(new_follow_id)
+                print(time.strftime('%Y-%m-%d %H:%M:%S %Z %A'), '添加成功', account_list[index][0], new_follow)
                 # if added.data.get('is_member'):
                 #     print(time.strftime('%Y-%m-%d %H:%M:%S %Z %A'), '添加成功', new_user.username)
                 #     list_members.append(new_user.id)
                 # else:
                 #     print(time.strftime('%Y-%m-%d %H:%M:%S %Z %A'), '添加失败', new_user.username)
                 #     q_add.put(new_follow)
-
-                # 在15分钟内添加4次就暂停到满15分钟
-                if number == 4 and delta_time < 900:
-                    with open('listMembers.json', 'w') as f:
-                        json.dump(list_members, f)
-                    time.sleep(930 - delta_time)
-                    start_time = time.time()
-                    number = 0
-                elif delta_time >= 900:
-                    with open('listMembers.json', 'w') as f:
-                        json.dump(list_members, f)
-                    time.sleep(930 - delta_time)
-                    start_time = time.time()
-                    number = 1
             except:
                 producer.publish('q_add', new_follow)
                 time.sleep(300)
-                print(time.strftime('%Y-%m-%d %H:%M:%S %Z %A'), '添加错误', new_follow)
-                continue
-                # Thread(target=add_member, args=[q_add], daemon=False).start()
-                # break
+                print(time.strftime('%Y-%m-%d %H:%M:%S %Z %A'), '添加错误', account_list[index][0], new_follow)
+                # 在15分钟内添加4次就暂停到满15分钟
+            if number == 4 and delta_time < 900:
+                with open('listMembers.json', 'w') as f:
+                    json.dump(list_members, f)
+                time.sleep(930 - delta_time)
+                start_time = time.time()
+                number = 0
+                print('超过频率,等待')
+            elif delta_time >= 900:
+                with open('listMembers.json', 'w') as f:
+                    json.dump(list_members, f)
+                time.sleep(930 - delta_time)
+                start_time = time.time()
+                number = 1
+                print('重置为1')
+            # except:
+            #     producer.publish('q_add', new_follow)
+            #     time.sleep(300)
+            #     print(time.strftime('%Y-%m-%d %H:%M:%S %Z %A'), '添加错误', account_list[index][0], new_follow)
+            #     continue
+            # Thread(target=add_member, args=[q_add], daemon=False).start()
+            # break
         #     print(time.strftime('%Y-%m-%d %H:%M:%S %Z %A'), '添加错误', new_follow.username)
         #     time.sleep(900)
         #         Thread(target=add_member, args=[q_add], daemon=False).start()
@@ -472,7 +488,7 @@ def process_item(key, tweet_text, item):
                      'tweet_alpha'] + ']' + '(https://twitter\.com/' + item[
                      'tweet_alpha'] + ')  \|  [' + item['tweet_tag'] + ']' + '(https://twitter\.com/' + \
                  item['tweet_user'] + '/status/' + item['tweet_id'] + ')\n' + item['alpha_datetime'].strftime(
-            '%Y-%m-%d %H:%M:%S %Z') + '\n\n`' + client_translate.translate(item['tweet_text']).translatedText + '`'
+            '%Y-%m-%d %H:%M:%S %Z') + '\n\n`' + item['tweet_text'] + '`'
         # md解析的特殊字符替換
         msg_tg = msg_tg.replace('_', r'\_').replace('-', r'\-').replace('#', r'\#')
         ISHTARider_tg.send_message(tg_channel, msg_tg
