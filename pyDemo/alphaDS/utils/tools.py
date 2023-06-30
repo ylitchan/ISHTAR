@@ -484,7 +484,7 @@ def process_item(key, tweet_text, item):
                      'tweetTag': item['tweet_tag'], 'listAccount': item['list_account'],
                      'alphaDatetime': item['alpha_datetime'].strftime('%Y-%m-%d %H:%M:%S'),
                      'userThumb': item['user_thumb'], 'alphaThumb': item['alpha_thumb'],
-                     'tweetTime': item['tweet_time'].strftime('%Y-%m-%d %H:%M:%S'), 'listName': item['list_name']}
+                     'tweetTime': item['tweet_time'].strftime('%Y-%m-%d %H:%M:%S')}
         token = session.post('https://alpha-admin.ipfszj.com/api/admin/base/open/login',
                              json={'username': 'autoadd', 'password': '123456'}).json().get('data').get('token')
         print('使用管理token', token, session.post(url=api_url, headers={'Authorization': token}, json=item_json))
