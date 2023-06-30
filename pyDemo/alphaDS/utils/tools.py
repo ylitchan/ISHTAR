@@ -88,8 +88,8 @@ def add_member():
     # sbfilter = ScalableBloomFilter(mode=ScalableBloomFilter.SMALL_SET_GROWTH)
     # with open('listMembers.json', 'r') as f:
     #     list_members = json.load(f)
-        # for member in list_members:
-        #     sbfilter.add(member)
+    # for member in list_members:
+    #     sbfilter.add(member)
     start_time = time.time()
     number = 0
     index = 0
@@ -110,27 +110,28 @@ def add_member():
         new_follow = m.get('data')
         if isinstance(new_follow, int):
             continue
-        new_follow = new_follow.decode('utf-8')
+        new_follow = json.loads(new_follow)
+        new_follow_id = new_follow.get('restID', 0)
         # while True:
         #     new_follow = q_add.get(block=True)
-        try:
-            # new_follow_id = client_tweet.get_user(username=new_follow,
-            #                                       user_fields=["profile_image_url", "public_metrics",
-            #                                                    'created_at',
-            #                                                    'description']).data
-
-            new_user = session.get(
-                'https://twitter.com/i/api/graphql/qRednkZG-rn1P6b48NINmQ/UserByScreenName?variables=%7B%22screen_name%22%3A%22{}%22%2C%22withSafetyModeUserFields%22%3Atrue%7D&features=%7B%22hidden_profile_likes_enabled%22%3Afalse%2C%22responsive_web_graphql_exclude_directive_enabled%22%3Atrue%2C%22verified_phone_label_enabled%22%3Afalse%2C%22subscriptions_verification_info_verified_since_enabled%22%3Atrue%2C%22highlights_tweets_tab_ui_enabled%22%3Atrue%2C%22creator_subscriptions_tweet_preview_api_enabled%22%3Atrue%2C%22responsive_web_graphql_skip_user_profile_image_extensions_enabled%22%3Afalse%2C%22responsive_web_graphql_timeline_navigation_enabled%22%3Atrue%7D'.format(
-                    new_follow), headers=account_list[index][2]).json()
-            new_follow_id = int(parse('$..rest_id').find(new_user)[0].value)
-        except:
-            producer.publish('q_add', new_follow)
-            time.sleep(300)
-            print(time.strftime('%Y-%m-%d %H:%M:%S %Z %A'), '获取错误', account_list[index][0], new_follow)
-            continue
-            # Thread(target=add_member, args=[q_add], daemon=False).start()
-            # break
-            # 發送添加到列表的請求
+        # try:
+        #     # new_follow_id = client_tweet.get_user(username=new_follow,
+        #     #                                       user_fields=["profile_image_url", "public_metrics",
+        #     #                                                    'created_at',
+        #     #                                                    'description']).data
+        #
+        #     new_user = session.get(
+        #         'https://twitter.com/i/api/graphql/qRednkZG-rn1P6b48NINmQ/UserByScreenName?variables=%7B%22screen_name%22%3A%22{}%22%2C%22withSafetyModeUserFields%22%3Atrue%7D&features=%7B%22hidden_profile_likes_enabled%22%3Afalse%2C%22responsive_web_graphql_exclude_directive_enabled%22%3Atrue%2C%22verified_phone_label_enabled%22%3Afalse%2C%22subscriptions_verification_info_verified_since_enabled%22%3Atrue%2C%22highlights_tweets_tab_ui_enabled%22%3Atrue%2C%22creator_subscriptions_tweet_preview_api_enabled%22%3Atrue%2C%22responsive_web_graphql_skip_user_profile_image_extensions_enabled%22%3Afalse%2C%22responsive_web_graphql_timeline_navigation_enabled%22%3Atrue%7D'.format(
+        #             new_follow), headers=account_list[index][2]).json()
+        #     new_follow_id = int(parse('$..rest_id').find(new_user)[0].value)
+        # except:
+        #     producer.publish('q_add', new_follow)
+        #     time.sleep(300)
+        #     print(time.strftime('%Y-%m-%d %H:%M:%S %Z %A'), '获取错误', account_list[index][0], new_follow)
+        #     continue
+        #     # Thread(target=add_member, args=[q_add], daemon=False).start()
+        #     # break
+        #     # 發送添加到列表的請求
         if not sbfilter.add(new_follow_id):
             index += 1
             if index == 3:
@@ -138,19 +139,6 @@ def add_member():
             # print('添加关注', new_follow.username)
             delta_time = time.time() - start_time
             try:
-                # token = session.post('https://alpha-admin.ipfszj.com/api/admin/base/open/login',
-                #                      json={'username': 'autoadd', 'password': '123456'}).json().get(
-                #     'data').get(
-                #     'token')
-                # session.post(url='http://alpha-admin.ipfszj.com/api/admin/alpha/alpha/add',
-                #              headers={'Authorization': token},
-                #              json={'username': new_user.username, 'bio': new_user.description,
-                #                    'profileImageUrl': new_user.profile_image_url,
-                #                    'createdAt': new_user.created_at.strftime("%Y-%m-%d %H:%M:%S"),
-                #                    'followersCount': new_user.public_metrics.get('followers_count', ''),
-                #                    'followingCount': new_user.public_metrics.get('following_count', ''),
-                #                    'tweetCount': new_user.public_metrics.get('tweet_count', ''),
-                #                    'listedCount': new_user.public_metrics.get('listed_count', '')})
                 # 每请求一次计数加1
                 # added = client_tweet.add_list_member(id='1639838455760035840', user_id=new_user.id, user_auth=True)
                 added = session.post('https://twitter.com/i/api/graphql/27lfFOrDygiZs382QLttKA/ListAddMember',
@@ -174,16 +162,12 @@ def add_member():
                                      json={'username': 'autoadd', 'password': '123456'}).json().get(
                     'data').get(
                     'token')
-                session.post(url='http://alpha-admin.ipfszj.com/api/admin/alpha/alpha/add',
-                             headers={'Authorization': token},
-                             json={'username': new_follow, 'bio': parse('$..rest_id').find(new_user)[0].value,
-                                   'profileImageUrl': parse('$..profile_image_url_https').find(new_user)[0].value,
-                                   'createdAt': parse('$..created_at').find(new_user)[0].value,
-                                   'followersCount': parse('$..followers_count').find(new_user)[0].value,
-                                   'listId': parse('$..id_str').find(added)[0].value,
+                new_follow.update({'listId': parse('$..id_str').find(added)[0].value,
                                    'listName': parse('$..name').find(added)[0].value,
-                                   'listAccount': parse('$..screen_name').find(added)[0].value,
-                                   'listedCount': parse('$..listed_count').find(new_user)[0].value})
+                                   'listAccount': parse('$..screen_name').find(added)[0].value})
+                session.post(url='https://alpha-admin.ipfszj.com/api/admin/alpha/list/add',
+                             headers={'Authorization': token},
+                             json=new_follow)
                 print(time.strftime('%Y-%m-%d %H:%M:%S %Z %A'), '添加成功', account_list[index][0], new_follow)
                 # if added.data.get('is_member'):
                 #     print(time.strftime('%Y-%m-%d %H:%M:%S %Z %A'), '添加成功', new_user.username)
@@ -198,16 +182,17 @@ def add_member():
             if number == 4 and delta_time < 900:
                 with open('sbfilterMember', 'wb') as f:
                     sbfilter.tofile(f)
+                print('超过频率,等待')
                 time.sleep(930 - delta_time)
                 start_time = time.time()
                 number = 0
-                print('超过频率,等待')
             elif delta_time >= 900:
                 with open('sbfilterMember', 'wb') as f:
                     sbfilter.tofile(f)
+                print('重置为1')
                 start_time = time.time()
                 number = 1
-                print('重置为1')
+
             # except:
             #     producer.publish('q_add', new_follow)
             #     time.sleep(300)
@@ -496,10 +481,10 @@ def process_item(key, tweet_text, item):
         item_json = {'tweetId': item['tweet_id'], 'tweetUser': item['tweet_user'],
                      'tweetAlpha': item['tweet_alpha'], 'tweetText': item['tweet_text'],
                      'tweetMedia': item['tweet_media'], 'tweetAi': item['tweet_ai'],
-                     'tweetTag': item['tweet_tag'],
+                     'tweetTag': item['tweet_tag'], 'listAccount': item['list_account'],
                      'alphaDatetime': item['alpha_datetime'].strftime('%Y-%m-%d %H:%M:%S'),
                      'userThumb': item['user_thumb'], 'alphaThumb': item['alpha_thumb'],
-                     'tweetTime': item['tweet_time'].strftime('%Y-%m-%d %H:%M:%S')}
+                     'tweetTime': item['tweet_time'].strftime('%Y-%m-%d %H:%M:%S'), 'listName': item['list_name']}
         token = session.post('https://alpha-admin.ipfszj.com/api/admin/base/open/login',
                              json={'username': 'autoadd', 'password': '123456'}).json().get('data').get('token')
         print('使用管理token', token, session.post(url=api_url, headers={'Authorization': token}, json=item_json))

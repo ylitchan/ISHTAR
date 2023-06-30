@@ -15,6 +15,7 @@ class LaunchInfo(models.Model):
     user_thumb = models.TextField(null=True, blank=True)
     alpha_thumb = models.TextField(null=True, blank=True)
     tweet_time = models.DateTimeField(null=True, blank=True)
+    list_account = models.TextField(null=True, blank=True)
 
 
 class CallerInfo(models.Model):
@@ -29,6 +30,7 @@ class CallerInfo(models.Model):
     user_thumb = models.TextField(null=True, blank=True)
     alpha_thumb = models.TextField(null=True, blank=True)
     tweet_time = models.DateTimeField(null=True, blank=True)
+    list_account = models.TextField(null=True, blank=True)
 
 
 class AlphaInfo(models.Model):

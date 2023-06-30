@@ -11,9 +11,11 @@ from ..items import *
 class AlphaSpider(scrapy.Spider):
     name = 'alpha'
     allowed_domains = ['twitter.com']
-    start_urls = [
-        'https://twitter.com/i/api/graphql/-_Z4thx55wBFXl3AYBW_1g/ListLatestTweetsTimeline?variables=%7B%22listId%22%3A%22{}%22%2C%22count%22%3A1%2C%22withDownvotePerspective%22%3Afalse%2C%22withReactionsMetadata%22%3Afalse%2C%22withReactionsPerspective%22%3Afalse%7D&features=%7B%22responsive_web_twitter_blue_verified_badge_is_enabled%22%3Atrue%2C%22responsive_web_graphql_exclude_directive_enabled%22%3Atrue%2C%22verified_phone_label_enabled%22%3Afalse%2C%22responsive_web_graphql_timeline_navigation_enabled%22%3Atrue%2C%22responsive_web_graphql_skip_user_profile_image_extensions_enabled%22%3Afalse%2C%22tweetypie_unmention_optimization_enabled%22%3Atrue%2C%22vibe_api_enabled%22%3Atrue%2C%22responsive_web_edit_tweet_api_enabled%22%3Atrue%2C%22graphql_is_translatable_rweb_tweet_is_translatable_enabled%22%3Atrue%2C%22view_counts_everywhere_api_enabled%22%3Atrue%2C%22longform_notetweets_consumption_enabled%22%3Atrue%2C%22tweet_awards_web_tipping_enabled%22%3Afalse%2C%22freedom_of_speech_not_reach_fetch_enabled%22%3Afalse%2C%22standardized_nudges_misinfo%22%3Atrue%2C%22tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled%22%3Afalse%2C%22interactive_text_enabled%22%3Atrue%2C%22responsive_web_text_conversations_enabled%22%3Afalse%2C%22longform_notetweets_richtext_consumption_enabled%22%3Afalse%2C%22responsive_web_enhance_cards_enabled%22%3Afalse%7D'.format(
-            i) for i in ['1639838455760035840', '1644920028696031235', '1646838020363153408', '1667054883219083264']]
+    list_dict = {'1639838455760035840': 'dao_ust', '1667054883219083264': 'dao_ust2',
+                 '1646838020363153408': 'dao_ust3', '1644920028696031235': 'dao_ust'}
+    # start_urls = [
+    #     'https://twitter.com/i/api/graphql/-_Z4thx55wBFXl3AYBW_1g/ListLatestTweetsTimeline?variables=%7B%22listId%22%3A%22{}%22%2C%22count%22%3A1%2C%22withDownvotePerspective%22%3Afalse%2C%22withReactionsMetadata%22%3Afalse%2C%22withReactionsPerspective%22%3Afalse%7D&features=%7B%22responsive_web_twitter_blue_verified_badge_is_enabled%22%3Atrue%2C%22responsive_web_graphql_exclude_directive_enabled%22%3Atrue%2C%22verified_phone_label_enabled%22%3Afalse%2C%22responsive_web_graphql_timeline_navigation_enabled%22%3Atrue%2C%22responsive_web_graphql_skip_user_profile_image_extensions_enabled%22%3Afalse%2C%22tweetypie_unmention_optimization_enabled%22%3Atrue%2C%22vibe_api_enabled%22%3Atrue%2C%22responsive_web_edit_tweet_api_enabled%22%3Atrue%2C%22graphql_is_translatable_rweb_tweet_is_translatable_enabled%22%3Atrue%2C%22view_counts_everywhere_api_enabled%22%3Atrue%2C%22longform_notetweets_consumption_enabled%22%3Atrue%2C%22tweet_awards_web_tipping_enabled%22%3Afalse%2C%22freedom_of_speech_not_reach_fetch_enabled%22%3Afalse%2C%22standardized_nudges_misinfo%22%3Atrue%2C%22tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled%22%3Afalse%2C%22interactive_text_enabled%22%3Atrue%2C%22responsive_web_text_conversations_enabled%22%3Afalse%2C%22longform_notetweets_richtext_consumption_enabled%22%3Afalse%2C%22responsive_web_enhance_cards_enabled%22%3Afalse%7D'.format(
+    #         i) for i in list_dict.keys()]
     cookies = [{'des_opt_in': 'Y', '_gcl_au': '1.1.116267149.1676257589', 'g_state': '{"i_l":4,"i_p":1681369247236}',
                 '_ga_BYKEBDM7DS': 'GS1.1.1679899771.1.1.1679899844.0.0.0',
                 'mbox': 'PC#5d50de66cc054e10bf959bf00d0b670c.38_0#1743478298|session#588b81b0c51c476c89ecc2e190b96e91#1680235358',
@@ -54,8 +56,12 @@ class AlphaSpider(scrapy.Spider):
     last_time = time.time()
 
     def start_requests(self):
-        for url in self.start_urls:
-            yield Request(url, dont_filter=True, callback=self.parse, cookies=self.cookies[0], headers=self.headers[0])
+        for l, n in self.list_dict.items():
+            # for url in self.start_urls:
+            yield Request(
+                'https://twitter.com/i/api/graphql/-_Z4thx55wBFXl3AYBW_1g/ListLatestTweetsTimeline?variables=%7B%22listId%22%3A%22{}%22%2C%22count%22%3A1%2C%22withDownvotePerspective%22%3Afalse%2C%22withReactionsMetadata%22%3Afalse%2C%22withReactionsPerspective%22%3Afalse%7D&features=%7B%22responsive_web_twitter_blue_verified_badge_is_enabled%22%3Atrue%2C%22responsive_web_graphql_exclude_directive_enabled%22%3Atrue%2C%22verified_phone_label_enabled%22%3Afalse%2C%22responsive_web_graphql_timeline_navigation_enabled%22%3Atrue%2C%22responsive_web_graphql_skip_user_profile_image_extensions_enabled%22%3Afalse%2C%22tweetypie_unmention_optimization_enabled%22%3Atrue%2C%22vibe_api_enabled%22%3Atrue%2C%22responsive_web_edit_tweet_api_enabled%22%3Atrue%2C%22graphql_is_translatable_rweb_tweet_is_translatable_enabled%22%3Atrue%2C%22view_counts_everywhere_api_enabled%22%3Atrue%2C%22longform_notetweets_consumption_enabled%22%3Atrue%2C%22tweet_awards_web_tipping_enabled%22%3Afalse%2C%22freedom_of_speech_not_reach_fetch_enabled%22%3Afalse%2C%22standardized_nudges_misinfo%22%3Atrue%2C%22tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled%22%3Afalse%2C%22interactive_text_enabled%22%3Atrue%2C%22responsive_web_text_conversations_enabled%22%3Afalse%2C%22longform_notetweets_richtext_consumption_enabled%22%3Afalse%2C%22responsive_web_enhance_cards_enabled%22%3Afalse%7D'.format(
+                    l), dont_filter=True, callback=self.parse, cookies=self.cookies[0], headers=self.headers[0],
+                meta={'list_account': n})
 
     # def get_text(self, the):
     #     text = re.findall(r"\bfull_text.*?, '", the)
@@ -74,15 +80,16 @@ class AlphaSpider(scrapy.Spider):
             tweet_id = re.findall(r'\d+', tweet_id)[-1]
             tweet_text = parse('$..full_text').find(only)
             # 佈隆過濾器去掉之前爬過的推文
-            if '1644920028696031235' in response.url and len(tweet_text) == 1:
+            if '1644920028696031235' in response.meta and len(tweet_text) == 1:
                 item = CallerItem()
                 item['tweet_text'] = tweet_text[-1].value
-            elif '1644920028696031235' not in response.url:
+            elif '1644920028696031235' not in response.meta:
                 item = LaunchItem()
                 item['tweet_text'] = '\n'.join([i.value for i in tweet_text])
             else:
                 item = None
             if not self.sbfilter.add(tweet_id + item.__class__.__name__) and item:
+                item['list_account'] = response.meta.get('list_account')
                 item['tweet_id'] = tweet_id
                 # all_user=re.findall(r'\bscreen_name.*?,', only)[0:2]
                 all_user = parse('$..screen_name').find(only)[0:2]

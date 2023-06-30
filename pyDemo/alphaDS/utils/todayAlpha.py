@@ -27,13 +27,14 @@ def do_task():
     alpha = LaunchInfo.objects.filter(tweet_tag__icontains=time.strftime('%Y-%m-%d')).values('tweet_alpha',
                                                                                              'tweet_tag',
                                                                                              'tweet_user', 'tweet_id',
-                                                                                             'tweet_text')
+                                                                                             'tweet_text', 'list_name')
     index = 0
     while index < len(alpha):
         msg = '\n\n'.join([time.strftime('%Y-%m-%d'), "🚀Today's Alpha"] + [
             '[' + i['tweet_user'] + ']' + '(https://twitter\.com/' + i['tweet_user'] + ')' + ' @[' + i[
                 'tweet_alpha'] + ']' + '(https://twitter\.com/' + i['tweet_alpha'] + ')  \|  [' + i[
-                'tweet_tag'] + ']' + '(https://twitter\.com/' + i['tweet_user'] + '/status/' + i['tweet_id'] + ')'
+                'tweet_tag'] + ']' + '(https://twitter\.com/' + i['tweet_user'] + '/status/' + i[
+                'tweet_id'] + ')  \|  ' + i['list_name']
             for i in
             alpha[index:index + 9]]).replace('_', r'\_').replace('-', r'\-').replace('#', r'\#')
         ISHTARider_tg.send_message(-1001982993052, msg, parse_mode="MarkdownV2", disable_web_page_preview=False)
@@ -42,7 +43,7 @@ def do_task():
 
 # 设置每天的 8 点执行任务
 # do_task()
-schedule.every().day.at("08:30").do(do_task)
+schedule.every().day.at("11:15").do(do_task)
 
 while True:
     schedule.run_pending()
