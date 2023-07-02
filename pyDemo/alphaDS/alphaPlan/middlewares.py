@@ -5,7 +5,9 @@
 import logging
 import random
 import time
-
+import requests
+import json
+from scrapy.http import Response
 from scrapy import signals
 
 # useful for handling different item types with a single interface
@@ -100,10 +102,12 @@ class AlphaplanDownloaderMiddleware:
         # - return None: continue processing this exception
         # - return a Response object: stops process_exception() chain
         # - return a Request object: stops process_exception() chain
-        pass
+        res = requests.get(request.url, headers=request.meta.get('headers'))
+        return Response(url=request.url, body=json.dumps(res.json()), request=request, status=res.status_code)
 
     def spider_opened(self, spider):
         spider.logger.info('Spider opened: %s' % spider.name)
+
 
 # 设置随机延时
 class RandomDelayMiddleware(object):

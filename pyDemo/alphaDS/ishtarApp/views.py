@@ -1,4 +1,5 @@
 import json
+from django.shortcuts import render
 from rest_framework.response import Response
 from threading import Thread
 from rest_framework.decorators import api_view
@@ -9,7 +10,16 @@ from utils.tools import *
 
 # Create your views here.
 def index(request):
-    return HttpResponse('<h1>Hello world</h1>')
+    return render(request, 'index.html')
+
+
+@api_view(['POST'])
+def getbalance(request):
+    data = request.data
+    user_phone = parse('$..user_phone').find(data)[0].value
+    user = UserInfo.objects.get(user_phone=user_phone)
+    return Response({'code': 200, 'data': {'user_phone': user_phone, 'user_balance': user.user_balance},
+                     'msg': '获取用户余额'})
 
 
 # 微信小程序验证注册api
@@ -55,7 +65,7 @@ def register(request):
 # 微信小程序消息api
 @api_view(['POST'])
 def aichat(request):
-    a=time.time()
+    a = time.time()
     data = request.data
     print('客户端消息', data)
     user_phone = parse('$..user_phone').find(data)[0].value
@@ -94,8 +104,8 @@ def aichat(request):
         user.user_balance -= 1
         print('扣款成功')
         user.save()
-    b=time.time()
-    print(b-a,'ttttttttttttttt')
+    b = time.time()
+    print(b - a, 'ttttttttttttttt')
     return Response(hf)
     # while True:
     #     try:
