@@ -36,47 +36,28 @@ class NewAlphaSpider(scrapy.Spider):
                  '@ApeOClock': 1401346770458669057, '@ilovegains': 749749112, '@Sherv1n_eth': 1476504086178676742,
                  '@berdXspade': 1459514982891024387, '@yuyue_chris': 1490949502261665792,
                  '@RomAin11515879': 1379376517671751681, '@yakuza_crypto': 1329171696155193345}
-
-    # list_dict = {'@0xdantrades', '@0xsn0wball', '@0xYelf', '@2lambro', '@3azima85', '@ApeOClock', '@ArbitrumNewsDAO',
-    #              '@Arron_finance', '@berdXspade', '@BiliSquare', '@ChadCaff', '@CJCJCJCJ_', '@criptopaul',
-    #              '@crypt0_beluga', '@crypt0detweiler', '@cryptamurai', '@crypto_saint', '@CryptoGangster6',
-    #              '@CryptoK63140864', '@CryptoKaduna', '@cryptomemez', '@dao_ust', '@dawsboss888', '@defi_antcrypto',
-    #              '@doctorDefi2020', '@DoloNFT', '@duke_rick1', '@Ed_x0101', '@EinsteinYipie', '@Ekonomeest',
-    #              '@ElCryptoDoc', '@EricCryptoman', '@FedAgentAaron', '@FractalGiraffe', '@Henry_VuQuangDu',
-    #              '@Hoangarthur2', '@I_am_patrimonio', '@ilovegains', '@ISHTARider', '@Juliooofive', '@lantian560560',
-    #              '@lawrenx_', '@LeNeutron', '@LoveKeykey1', '@Luyaoyuan1', '@Makima_sol', '@MiddleChildPabk',
-    #              '@MohammedTunkar4', '@monosarin', '@multichainchad', '@panoskras', '@RaccoonHKG', '@RASOKA_ETH',
-    #              '@RomAin11515879', '@Sajuio8', '@Sherv1n_eth', '@shingboiii', '@skiesyyyy', '@SlukaOzella',
-    #              '@snkrseateat', '@sululukz99', '@sung_crypto', '@The_1legendd', '@thecyptowonk', '@TheRealGapper',
-    #              '@ugly42061647', '@UST_DAO', '@Vikcyter_2', '@vvhader1', '@xiaowuDD666', '@yakuza_crypto',
-    #              '@yuyue_chris'}'@ISHTARider': 1577862800952930305,
-    # start_urls = [
-    #     'https://twitter.com/i/api/graphql/-_Z4thx55wBFXl3AYBW_1g/ListLatestTweetsTimeline?variables=%7B%22listId%22%3A%22{}%22%2C%22count%22%3A1%2C%22withDownvotePerspective%22%3Afalse%2C%22withReactionsMetadata%22%3Afalse%2C%22withReactionsPerspective%22%3Afalse%7D&features=%7B%22responsive_web_twitter_blue_verified_badge_is_enabled%22%3Atrue%2C%22responsive_web_graphql_exclude_directive_enabled%22%3Atrue%2C%22verified_phone_label_enabled%22%3Afalse%2C%22responsive_web_graphql_timeline_navigation_enabled%22%3Atrue%2C%22responsive_web_graphql_skip_user_profile_image_extensions_enabled%22%3Afalse%2C%22tweetypie_unmention_optimization_enabled%22%3Atrue%2C%22vibe_api_enabled%22%3Atrue%2C%22responsive_web_edit_tweet_api_enabled%22%3Atrue%2C%22graphql_is_translatable_rweb_tweet_is_translatable_enabled%22%3Atrue%2C%22view_counts_everywhere_api_enabled%22%3Atrue%2C%22longform_notetweets_consumption_enabled%22%3Atrue%2C%22tweet_awards_web_tipping_enabled%22%3Afalse%2C%22freedom_of_speech_not_reach_fetch_enabled%22%3Afalse%2C%22standardized_nudges_misinfo%22%3Atrue%2C%22tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled%22%3Afalse%2C%22interactive_text_enabled%22%3Atrue%2C%22responsive_web_text_conversations_enabled%22%3Afalse%2C%22longform_notetweets_richtext_consumption_enabled%22%3Afalse%2C%22responsive_web_enhance_cards_enabled%22%3Afalse%7D'.format(
-    #         i) for i in list_dict.keys()]
-    headers = [i[2] for i in ACCOUNT_LIST]
     with open('sbfilterFollowing', 'rb') as f:
         sbfilter = ScalableBloomFilter(mode=ScalableBloomFilter.SMALL_SET_GROWTH).fromfile(f)
     last_time = time.time()
 
     def start_requests(self):
         for l, n in self.user_dict.items():
-            # for url in self.start_urls:
+            index = random.randint(0, len(LIST_LIST) - 1)
             yield Request(
-                'https://twitter.com/i/api/graphql/2vTVUCjWcooreYYLCK0nLQ/Following?variables=%7B%22userId%22%3A%22{}%22%2C%22count%22%3A20%2C%22includePromotedContent%22%3Afalse%7D&features=%7B%22rweb_lists_timeline_redesign_enabled%22%3Atrue%2C%22responsive_web_graphql_exclude_directive_enabled%22%3Atrue%2C%22verified_phone_label_enabled%22%3Afalse%2C%22creator_subscriptions_tweet_preview_api_enabled%22%3Atrue%2C%22responsive_web_graphql_timeline_navigation_enabled%22%3Atrue%2C%22responsive_web_graphql_skip_user_profile_image_extensions_enabled%22%3Afalse%2C%22tweetypie_unmention_optimization_enabled%22%3Atrue%2C%22responsive_web_edit_tweet_api_enabled%22%3Atrue%2C%22graphql_is_translatable_rweb_tweet_is_translatable_enabled%22%3Atrue%2C%22view_counts_everywhere_api_enabled%22%3Atrue%2C%22longform_notetweets_consumption_enabled%22%3Atrue%2C%22responsive_web_twitter_article_tweet_consumption_enabled%22%3Afalse%2C%22tweet_awards_web_tipping_enabled%22%3Afalse%2C%22freedom_of_speech_not_reach_fetch_enabled%22%3Atrue%2C%22standardized_nudges_misinfo%22%3Atrue%2C%22tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled%22%3Atrue%2C%22longform_notetweets_rich_text_read_enabled%22%3Atrue%2C%22longform_notetweets_inline_media_enabled%22%3Atrue%2C%22responsive_web_media_download_video_enabled%22%3Afalse%2C%22responsive_web_enhance_cards_enabled%22%3Afalse%7D&fieldToggles=%7B%22withArticleRichContentState%22%3Afalse%7D'.format(
-                    str(n)), dont_filter=True, callback=self.parse, headers=self.headers[0],
-                meta={'username': l, 'headers': self.headers[0]})
+                'https://twitter.com/i/api/graphql/sKlU5dd_nanz9P2CxBt2sg/Following?variables=%7B%22userId%22%3A%22{}%22%2C%22count%22%3A20%2C%22includePromotedContent%22%3Afalse%7D&features=%7B%22rweb_lists_timeline_redesign_enabled%22%3Atrue%2C%22responsive_web_graphql_exclude_directive_enabled%22%3Atrue%2C%22verified_phone_label_enabled%22%3Afalse%2C%22creator_subscriptions_tweet_preview_api_enabled%22%3Atrue%2C%22responsive_web_graphql_timeline_navigation_enabled%22%3Atrue%2C%22responsive_web_graphql_skip_user_profile_image_extensions_enabled%22%3Afalse%2C%22tweetypie_unmention_optimization_enabled%22%3Atrue%2C%22responsive_web_edit_tweet_api_enabled%22%3Atrue%2C%22graphql_is_translatable_rweb_tweet_is_translatable_enabled%22%3Atrue%2C%22view_counts_everywhere_api_enabled%22%3Atrue%2C%22longform_notetweets_consumption_enabled%22%3Atrue%2C%22responsive_web_twitter_article_tweet_consumption_enabled%22%3Afalse%2C%22tweet_awards_web_tipping_enabled%22%3Afalse%2C%22freedom_of_speech_not_reach_fetch_enabled%22%3Atrue%2C%22standardized_nudges_misinfo%22%3Atrue%2C%22tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled%22%3Atrue%2C%22longform_notetweets_rich_text_read_enabled%22%3Atrue%2C%22longform_notetweets_inline_media_enabled%22%3Atrue%2C%22responsive_web_media_download_video_enabled%22%3Afalse%2C%22responsive_web_enhance_cards_enabled%22%3Afalse%7D&fieldToggles=%7B%22withArticleRichContentState%22%3Afalse%7D'.format(
+                    str(n)), dont_filter=True, callback=self.parse, headers=LIST_LIST[index][2],
+                meta={'username': l, 'headers_account': ACCOUNT_LIST[index][0], 'headers': LIST_LIST[index][2]})
 
-    def parse(self, response):
+    def parse(self, response, **kwargs):
         print(response.status, response.meta.get('username'), time.strftime('%Y-%m-%d %H:%M:%S %Z %A'))
         if response.status == 200:
-            following = parse('$..user_results').find(response.json())
+            following = parse('$..user_results.result').find(response.json())
             print(parse('$..screen_name').find(following[0].value)[0].value)
             for u in following:
+                rest_id = parse('$..rest_id').find(u.value)
+                # print(parse('$..screen_name').find(u.value)[0].value)
                 # 佈隆過濾器去掉之前爬過的推文
-                if not self.sbfilter.add(parse('$..rest_id').find(u.value)[0].value):
-                    # with open('sbfilterFollowing', 'wb') as f:
-                    #     self.sbfilter.tofile(f)
-                    # print('持久化布隆过滤器')
+                if rest_id and not self.sbfilter.add(rest_id[0].value):
                     new_follow = {'username': parse('$..screen_name').find(u.value)[0].value,
                                   'restID': parse('$..rest_id').find(u.value)[0].value,
                                   'bio': parse('$..description').find(u.value)[0].value,
@@ -86,27 +67,19 @@ class NewAlphaSpider(scrapy.Spider):
                                   'listedCount': parse('$..listed_count').find(u.value)[0].value}
                     print('当前新增关注', new_follow)
                     producer.publish('q_add', json.dumps(new_follow))
-                    msg_tg = '\=\=新增关注\=\=\n最新关注[' + parse('$..screen_name').find(u.value)[
-                        0].value + '](https://twitter.com/' + parse('$..screen_name').find(u.value)[
-                                 0].value + ')\nfollowersCount:' + str(parse('$..followers_count').find(u.value)[
-                                                                           0].value) + '\nlistedCount:' + str(
-                        parse('$..listed_count').find(u.value)[
-                            0].value) + '\n来自[' + response.meta.get('username')[
-                                                    1:] + '](https://twitter.com/' + response.meta.get(
-                        'username')[1:] + ')'
-                    msg_tg = msg_tg.replace('_', r'\_').replace('-', r'\-').replace('#', r'\#')
-                    ISHTARider_tg.send_message(-1001982993052, msg_tg, parse_mode="MarkdownV2",
-                                               disable_web_page_preview=False)
-
-                    # token = session.post('https://alpha-admin.ipfszj.com/api/admin/base/open/login',
-                    #                      json={'username': 'autoadd', 'password': '123456'}).json().get(
-                    #     'data').get(
-                    #     'token')
-                    # session.post(url='https://alpha-admin.ipfszj.com/api/admin/alpha/list/add',
-                    #              headers={'Authorization': token},
-                    #              json=new_follow)
+                    # msg_tg = '\=\=新增关注\=\=\n最新关注[' + parse('$..screen_name').find(u.value)[
+                    #     0].value + '](https://twitter.com/' + parse('$..screen_name').find(u.value)[
+                    #              0].value + ')\nfollowersCount:' + str(parse('$..followers_count').find(u.value)[
+                    #                                                        0].value) + '\nlistedCount:' + str(
+                    #     parse('$..listed_count').find(u.value)[
+                    #         0].value) + '\n来自[' + response.meta.get('username')[
+                    #                                 1:] + '](https://twitter.com/' + response.meta.get(
+                    #     'username')[1:] + ')'
+                    # msg_tg = msg_tg.replace('_', r'\_').replace('-', r'\-').replace('#', r'\#')
+                    # ISHTARider_tg.send_message(-1001982993052, msg_tg, parse_mode="MarkdownV2",
+                    #                            disable_web_page_preview=False)
                     # 每隔一段时间持久化布隆过滤器
-                    if time.time() - self.last_time > 900:
+                    if time.time() - self.last_time > 600:
                         with open('sbfilterFollowing', 'wb') as f:
                             self.sbfilter.tofile(f)
                         print('持久化布隆过滤器')
@@ -114,9 +87,10 @@ class NewAlphaSpider(scrapy.Spider):
         else:
             time.sleep(60)
         # 隨機headers以及cookies
-        index = random.randint(0, 2)
-        headers = self.headers[index]
-        print('头部索引', index)
+        index = random.randint(0, len(LIST_LIST) - 1)
+        headers = LIST_LIST[index][2]
+        print('请求头账号', LIST_LIST[index][0])
+        response.meta['headers_account'] = LIST_LIST[index][0]
         response.meta['headers'] = headers
         yield Request(url=response.url, callback=self.parse, headers=headers, dont_filter=True,
                       meta=response.meta)

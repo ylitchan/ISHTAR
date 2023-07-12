@@ -7,7 +7,7 @@ import random
 import time
 import requests
 import json
-from scrapy.http import Response
+from scrapy.http import TextResponse
 from scrapy import signals
 
 # useful for handling different item types with a single interface
@@ -92,6 +92,10 @@ class AlphaplanDownloaderMiddleware:
         # - return a Response object
         # - return a Request object
         # - or raise IgnoreRequest
+        if response.status != 200:
+            res = requests.get(request.url, headers=request.meta.get('headers'))
+            print('非200使用requests重试', res)
+            return TextResponse(url=request.url, body=res.content, request=request, status=res.status_code)
         return response
 
     def process_exception(self, request, exception, spider):
@@ -103,7 +107,8 @@ class AlphaplanDownloaderMiddleware:
         # - return a Response object: stops process_exception() chain
         # - return a Request object: stops process_exception() chain
         res = requests.get(request.url, headers=request.meta.get('headers'))
-        return Response(url=request.url, body=json.dumps(res.json()), request=request, status=res.status_code)
+        print('请求错误使用requests重试', res, res.json())
+        return TextResponse(url=request.url, body=res.content, request=request, status=res.status_code)
 
     def spider_opened(self, spider):
         spider.logger.info('Spider opened: %s' % spider.name)
@@ -116,7 +121,7 @@ class RandomDelayMiddleware(object):
 
     @classmethod
     def from_crawler(cls, crawler):
-        delay = crawler.spider.settings.get("RANDOM_DELAY", 10)
+        delay = crawler.spider.settings.get("RANDOM_DELAY", 3)
         if not isinstance(delay, int):
             raise ValueError("RANDOM_DELAY need a int")
         return cls(delay)

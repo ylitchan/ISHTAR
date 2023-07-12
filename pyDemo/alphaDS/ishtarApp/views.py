@@ -40,9 +40,12 @@ def signin(request):
 def getmsg(request):
     data = request.data
     user_phone = parse('$..user_phone').find(data)[0].value
-    user = UserInfo.objects.get(user_phone=user_phone)
-    return Response({'code': 200, 'data': {'user_phone': user_phone, 'user_history': json.loads(user.user_history)},
-                     'msg': '获取历史消息'})
+    try:
+        user = UserInfo.objects.get(user_phone=user_phone)
+        return Response({'code': 200, 'data': {'user_phone': user_phone, 'user_history': json.loads(user.user_history)},
+                         'msg': '获取历史消息'})
+    except:
+        return Response({'code': 401, 'data': {'user_phone': user_phone}, 'msg': '请重新登录'})
 
 
 # 微信小程序注册api
@@ -55,7 +58,7 @@ def register(request):
     try:
         if UserInfo.objects.filter(user_phone=user_phone):
             return Response({'code': 400, 'data': {'open_id': user_phone}, 'msg': '手机号已被注册,请换个手机号'})
-        UserInfo.objects.create(open_id=user_phone, user_phone=user_phone, password=password, user_balance=0,
+        UserInfo.objects.create(open_id=user_phone, user_phone=user_phone, password=password, user_balance=10,
                                 user_history=json.dumps([{}]))
         return Response({'code': 200, 'data': {'open_id': user_phone}, 'msg': '注册成功'})
     except:
